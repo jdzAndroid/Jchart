@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../def/bar/bar_chart_data.dart';
+import '../../helper/chart_helper.dart';
+import '../data/base_content_data.dart';
+import '../data/base_data.dart';
 import '../data/base_draw_info.dart';
 import '../style/base_chart_content_style.dart';
 import 'base_chart_render.dart';
@@ -10,18 +13,46 @@ import 'base_chart_render.dart';
 abstract class BaseChartContentRender<
     STYLE extends BaseChartContentStyle,
     INFO extends BaseDrawInfo,
-    DATA extends BarChartData> extends BaseChartRender<STYLE, INFO, DATA> {
+    DATA extends BaseContentData> extends BaseChartRender<STYLE, INFO, DATA> {
   List<ChartUIInfo<DATA>> uiInfoList = List.empty(growable: true);
+  ///记录当前选中的图表位置，如果支持选中
+  int selIndex=-1;
 
   BaseChartContentRender(
       {required super.dataList, required super.style});
 
   ///图表点击回调
-  bool hitTestSelf(Offset offset);
+  bool hitTestSelf(Offset offset){
+    if (style.chartClick == null) {
+      printLog(message: "点击事件为空", methodName: "hitTestSelf");
+      return false;
+    }
+    double minDistance = info.w;
+    int position = 0;
+    for (int i = 0; i < uiInfoList.length; i++) {
+      ChartUIInfo itemInfo = uiInfoList[i];
+      if (abs(offset.dx - itemInfo.rect.left) +
+          abs(offset.dx - itemInfo.rect.right) <
+          minDistance) {
+        minDistance = abs(offset.dx - itemInfo.rect.left) +
+            abs(offset.dx - itemInfo.rect.right);
+        position = i;
+      }
+    }
+    ChartUIInfo itemInfo = uiInfoList[position];
+    return style.chartClick!(itemInfo.data, itemInfo.position, itemInfo.rect);
+  }
+
+  double abs(double value) {
+    if (value < 0) {
+      return -value;
+    }
+    return value;
+  }
 }
 
 ///用于描述图表绘制数据
-class ChartUIInfo<DATA extends BarChartData> {
+class ChartUIInfo<DATA extends BaseData> {
   DATA data;
   Rect rect;
   int position;

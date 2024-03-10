@@ -153,6 +153,8 @@ class BaseChartRenderObject extends RenderBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     super.paint(context, offset);
+    if(chartBean.xMin>=chartBean.xMax)return;
+    if(chartBean.yMin>=chartBean.yMax)return;
     double w = chartBean.width ?? constraints.maxWidth;
     double h = chartBean.height ?? constraints.maxHeight;
     BaseDrawInfo drawInfo = BaseDrawInfo(

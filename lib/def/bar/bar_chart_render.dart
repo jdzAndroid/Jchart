@@ -26,8 +26,8 @@ class BarChartRender
       return;
     }
     int position = dataList.length;
-    double perW = (rect.width) / (info.xMax - info.xMin+1);
-    double perH = rect.height / (info.yMax - info.yMin+1);
+    double perW = (rect.width) / (info.xMax - info.xMin + 1);
+    double perH = rect.height / (info.yMax - info.yMin + 1);
     Radius topRadius;
     Radius bottomRadius;
     Color startColor = ChartGlobalConfig.barColor;
@@ -48,11 +48,11 @@ class BarChartRender
       }
       wRadius = itemData.radius ?? style.radius ?? ChartGlobalConfig.barRadius;
       wRadius = min(wRadius, 1);
-      double left = rect.left+(itemData.xValue - info.xMin) * perW;
+      double left = rect.left + (itemData.xValue - info.xMin) * perW;
       double top = rect.top + (info.yMax - itemData.endValue);
       double bottom = rect.bottom - (itemData.startValue - info.yMin) * perH;
       left += (1 - wRadius) * perW / 2;
-      double right = left + perW*wRadius;
+      double right = left + perW * wRadius;
       bottom -= (1 - wRadius) * perW / 2;
       Rect itemRect = Rect.fromLTRB(left, top, right, bottom);
       uiInfoList.add(ChartUIInfo(data: itemData, rect: itemRect, position: i));
@@ -82,34 +82,5 @@ class BarChartRender
               bottomRight: bottomRadius),
           paint);
     }
-  }
-
-  @override
-  bool hitTestSelf(Offset offset) {
-    if (style.chartClick == null) {
-      printLog(message: "点击事件为空", methodName: "hitTestSelf");
-      return false;
-    }
-    double minDistance = info.w;
-    int position = 0;
-    for (int i = 0; i < uiInfoList.length; i++) {
-      ChartUIInfo itemInfo = uiInfoList[i];
-      if (abs(offset.dx - itemInfo.rect.left) +
-              abs(offset.dx - itemInfo.rect.right) <
-          minDistance) {
-        minDistance = abs(offset.dx - itemInfo.rect.left) +
-            abs(offset.dx - itemInfo.rect.right);
-        position = i;
-      }
-    }
-    ChartUIInfo itemInfo = uiInfoList[position];
-    return style.chartClick!(itemInfo.data, itemInfo.position, itemInfo.rect);
-  }
-
-  double abs(double value) {
-    if (value < 0) {
-      return -value;
-    }
-    return value;
   }
 }

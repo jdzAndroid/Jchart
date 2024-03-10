@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../base/data/base_data.dart';
+import '../../base/data/base_content_data.dart';
 
 ///Created by jdz on 2024/3/6 8:44
 ///@brief 柱状图数据
-class BarChartData extends BaseData {
+class BarChartData extends BaseContentData {
   double xValue;
   double startValue;
   double endValue;
@@ -28,5 +28,6 @@ class BarChartData extends BaseData {
       this.endColor,
       this.topRadius,
       this.bottomRadius,
-      this.radius});
+      this.radius,
+      super.supportSel});
 }
