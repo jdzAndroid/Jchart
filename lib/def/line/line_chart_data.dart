@@ -23,9 +23,7 @@ class LineChartData extends BaseContentData {
   Color? lineColor;
   Color? dashColor;
 
-  ///线条角度
-  Radius? radius;
-  bool? showDot;
+  bool? showCircle;
   double? circleRadius;
   double? circleStrokeRadius;
   PaintingStyle? circleStyle;
@@ -43,8 +41,7 @@ class LineChartData extends BaseContentData {
       this.lineSize,
       this.lineColor,
       this.dashColor,
-      this.radius,
-      this.showDot,
+      this.showCircle,
       this.circleRadius,
       this.circleStrokeRadius,
       this.circleStyle,

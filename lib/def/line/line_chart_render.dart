@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -22,16 +23,15 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
       printLog(message: "折线图数据为空", methodName: "draw");
       return;
     }
-    double perW = rect.width / (info.xMax - info.xMin + 1);
-    double perH = rect.height / (info.yMax - info.yMin + 1);
+    double perW = (rect.width) / (info.xMax - info.xMin + 1);
+    double perH = (rect.height) / (info.yMax - info.yMin + 1);
     LineTypeEnum itemLineType;
     double itemLineWidth;
     double itemDashWidth;
     double itemLineHeight;
     Color itemLineColor;
     Color itemDashColor;
-    Radius itemLineRadius;
-    bool itemShowDot;
+    bool itemShowCircle;
     double itemCircleRadius;
     double itemCircleStrokeRadius;
     PaintingStyle itemCircleStyle;
@@ -45,11 +45,11 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
     double startCenterY;
     double endCenterX;
     double endCenterY;
-    Path clipPath = Path();
     Path linePath = Path();
     dataList.sort((pre, next) => (pre.xValue - next.xValue).toInt());
     for (int index = 0; index < dataList.length; index++) {
       LineChartData itemData = dataList[index];
+      itemShowCircle = itemData.showCircle ?? style.showCircle ?? false;
       itemLineType = itemData.lineType ?? style.lineType ?? LineTypeEnum.line;
       itemLineWidth =
           itemData.width ?? style.width ?? ChartGlobalConfig.lineSolidWidth;
@@ -64,8 +64,6 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
       itemDashColor = itemData.dashColor ??
           style.dashColor ??
           ChartGlobalConfig.lineVisualColor;
-      itemLineRadius = itemData.radius ?? style.radius ?? Radius.zero;
-      itemShowDot = itemData.showDot ?? style.showDot ?? true;
       itemCircleRadius = itemData.circleRadius ?? style.circleRadius ?? 0;
       itemCircleStrokeRadius =
           itemData.circleStrokeRadius ?? style.circleStrokeRadius ?? 0;
@@ -87,8 +85,6 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
 
       ///非最后一个点需要绘制线条
       if (index != dataList.length - 1) {
-        context.canvas.save();
-        clipPath.reset();
         LineChartData nextItemData = dataList[index + 1];
         endCenterX = rect.left + perW * (nextItemData.xValue - info.xMin + 0.5);
         endCenterY =
@@ -96,31 +92,36 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
 
         switch (itemCircleStyle) {
           case PaintingStyle.fill:
-            clipPath.addOval(Rect.fromCircle(
-                center: Offset(startCenterX, startCenterY),
-                radius: itemCircleRadius));
+            startCenterX = max(min(startCenterX, rect.right - itemCircleRadius),
+                rect.left + itemCircleRadius);
+            startCenterY = max(
+                min(startCenterY, rect.bottom - itemCircleRadius),
+                rect.top + itemCircleRadius);
 
-            clipPath.addOval(Rect.fromCircle(
-                center: Offset(endCenterX, endCenterY),
-                radius: itemCircleRadius));
+            endCenterX = max(min(endCenterX, rect.right - itemCircleRadius),
+                rect.left + itemCircleRadius);
+            endCenterY = max(min(endCenterY, rect.bottom - itemCircleRadius),
+                rect.top + itemCircleRadius);
             break;
           default:
-            clipPath.addOval(Rect.fromCircle(
-                center: Offset(startCenterX, startCenterY),
-                radius: itemCircleStrokeRadius));
+            startCenterX = max(
+                min(startCenterX, rect.right - itemCircleStrokeRadius),
+                rect.left + itemCircleStrokeRadius);
+            startCenterY = max(
+                min(startCenterY, rect.bottom - itemCircleStrokeRadius),
+                rect.top + itemCircleStrokeRadius);
 
-            clipPath.addOval(Rect.fromCircle(
-                center: Offset(endCenterX, endCenterY),
-                radius: itemCircleStrokeRadius));
+            endCenterX = max(
+                min(endCenterX, rect.right - itemCircleStrokeRadius),
+                rect.left + itemCircleStrokeRadius);
+            endCenterY = max(
+                min(endCenterY, rect.bottom - itemCircleStrokeRadius),
+                rect.top + itemCircleStrokeRadius);
             break;
         }
 
-        context.canvas.clipPath(clipPath);
-
-        startOffset.translate(-startOffset.dx, -startOffset.dy);
-        endOffset.translate(-endOffset.dx, -endOffset.dy);
-        startOffset.translate(startCenterX, startCenterY);
-        endOffset.translate(endCenterX, endCenterY);
+        startOffset = Offset(startCenterX, startCenterY);
+        endOffset = Offset(endCenterX, endCenterY);
 
         paint.color = itemLineColor;
         paint.style = PaintingStyle.fill;
@@ -145,41 +146,37 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
                 canvas: context.canvas);
             break;
         }
-        context.canvas.restore();
+      } else {
+        startCenterX = max(min(startCenterX, rect.right - itemCircleRadius),
+            rect.left + itemCircleRadius);
+        startCenterY = max(min(startCenterY, rect.bottom - itemCircleRadius),
+            rect.top + itemCircleRadius);
       }
 
-      ///绘制圆点
-      paint.style = PaintingStyle.fill;
-      paint.strokeWidth = 1;
-      switch (itemCircleStyle) {
-        case PaintingStyle.fill:
-          paint.color =
-              selIndex == index ? itemCircleSelColor : itemCircleColor;
-          context.canvas.drawCircle(
-              Offset(rect.left + perW * (itemData.xValue - info.xMin + 0.5),
-                  rect.bottom - perH * (itemData.yValue - info.yMin + 0.5)),
-              itemCircleRadius,
-              paint);
-          break;
-        default:
-          context.canvas.save();
-          clipPath.addOval(Rect.fromCircle(
-              center: Offset(startCenterX, startCenterY),
-              radius: itemCircleRadius));
-          context.canvas.clipPath(clipPath);
+      if (itemShowCircle) {
+        ///绘制圆点
+        paint.style = PaintingStyle.fill;
+        paint.strokeWidth = 1;
+        switch (itemCircleStyle) {
+          case PaintingStyle.fill:
+            paint.color =
+                selIndex == index ? itemCircleSelColor : itemCircleColor;
+            context.canvas.drawCircle(
+                Offset(startCenterX, startCenterY), itemCircleRadius, paint);
+            break;
+          default:
+            paint.color = selIndex == index
+                ? itemCircleSelStrokeColor
+                : itemCircleStrokeColor;
+            context.canvas.drawCircle(Offset(startCenterX, startCenterY),
+                itemCircleStrokeRadius, paint);
 
-          paint.color = selIndex == index
-              ? itemCircleSelStrokeColor
-              : itemCircleStrokeColor;
-          context.canvas.drawCircle(Offset(startCenterX, startCenterY),
-              itemCircleStrokeRadius, paint);
-
-          paint.color =
-              selIndex == index ? itemCircleSelColor : itemCircleColor;
-          context.canvas.drawCircle(
-              Offset(startCenterX, startCenterY), itemCircleRadius, paint);
-          context.canvas.restore();
-          break;
+            paint.color =
+                selIndex == index ? itemCircleSelColor : itemCircleColor;
+            context.canvas.drawCircle(
+                Offset(startCenterX, startCenterY), itemCircleRadius, paint);
+            break;
+        }
       }
     }
   }
@@ -200,9 +197,29 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
       required double lineHeight,
       required Paint paint,
       required Canvas canvas}) {
-    PathMetrics pathMetrics=path.computeMetrics();
-    while(pathMetrics.iterator.moveNext()){
-      // pathMetrics.iterator.current.extractPath(start, end);
+    PathMetrics pathMetrics = path.computeMetrics();
+    double startDistance = 0;
+    double endDistance = 0;
+    bool solid = true;
+    paint.style = PaintingStyle.fill;
+    paint.isAntiAlias = true;
+    paint.strokeWidth = 1;
+    for (var itemPathMetrics in pathMetrics) {
+      solid = true;
+      startDistance = endDistance = 0;
+      while (endDistance < itemPathMetrics.length) {
+        if (solid) {
+          endDistance = startDistance + width;
+          paint.color = color;
+        } else {
+          endDistance = startDistance + dashWidth;
+          paint.color = dashColor;
+        }
+        Path itemPath = itemPathMetrics.extractPath(startDistance, endDistance);
+        solid = !solid;
+        canvas.drawPath(itemPath, paint);
+        startDistance=endDistance;
+      }
     }
   }
 }

@@ -20,9 +20,7 @@ class LineChartStyle extends BaseChartContentStyle {
   Color? lineColor;
   Color? dashColor;
 
-  ///线条角度
-  Radius? radius;
-  bool? showDot;
+  bool? showCircle;
   double? circleRadius;
   double? circleStrokeRadius;
   PaintingStyle? circleStyle;
@@ -30,6 +28,7 @@ class LineChartStyle extends BaseChartContentStyle {
   Color? circleStrokeColor;
   Color? circleSelColor;
   Color? circleStrokeSelColor;
+  bool? supportSel;
 
   LineChartStyle(
       {this.lineType,
@@ -38,13 +37,13 @@ class LineChartStyle extends BaseChartContentStyle {
       this.lineSize,
       this.lineColor,
       this.dashColor,
-      this.radius,
-      this.showDot,
+      this.showCircle,
       this.circleRadius,
       this.circleStrokeRadius,
       this.circleStyle,
       this.circleColor,
       this.circleStrokeColor,
       this.circleSelColor,
-      this.circleStrokeSelColor});
+      this.circleStrokeSelColor,
+      this.supportSel});
 }

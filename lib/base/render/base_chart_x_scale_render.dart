@@ -56,7 +56,6 @@ class BaseChartXScaleRender<STYLE extends BaseChartXScaleStyle,
     String label;
     for (int index = 0; index < labelSizeList.length; index++) {
       Size itemSize = labelSizeList[index];
-      debugPrint(">>>>>>>>>>>>>>>>$itemSize");
       if (itemSize.width <= 0 || itemSize.height <= 0) {
         continue;
       }

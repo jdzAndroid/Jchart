@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jchart/example/example_bar_chart.dart';
+import 'package:jchart/example/example_line_chart.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const ExampleBarChart(),
+      home: const ExampleLineChart(),
     );
   }
 }
