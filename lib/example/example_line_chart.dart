@@ -90,7 +90,7 @@ class ExampleLineChart extends StatelessWidget {
                         dashWidth: 3,
                         dashColor: Colors.transparent,
                         lineColor: Colors.yellow,
-                        showCircle: true,
+                        showCircle: false,
                         circleRadius: 5,
                         circleStrokeRadius: 8,
                         circleStyle: PaintingStyle.stroke,

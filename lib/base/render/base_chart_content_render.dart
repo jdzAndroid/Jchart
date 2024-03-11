@@ -15,33 +15,35 @@ abstract class BaseChartContentRender<
     INFO extends BaseDrawInfo,
     DATA extends BaseContentData> extends BaseChartRender<STYLE, INFO, DATA> {
   List<ChartUIInfo<DATA>> uiInfoList = List.empty(growable: true);
-  ///记录当前选中的图表位置，如果支持选中
-  int selIndex=-1;
 
-  BaseChartContentRender(
-      {required super.dataList, required super.style});
+  ///记录当前选中的图表位置，如果支持选中
+  int selIndex = -1;
+
+  BaseChartContentRender({required super.dataList, required super.style});
 
   ///图表点击回调
-  bool hitTestSelf(Offset offset){
+  ///@param offset 触摸点坐标
+  ///@return true表示需要刷新图表
+  bool hitTestSelf(Offset offset) {
     if (style.chartClick == null) {
       printLog(message: "点击事件为空", methodName: "hitTestSelf");
       return false;
     }
     double minDistance = info.w;
-    selIndex=-1;
-    int position=-1;
+    selIndex = -1;
+    int position = -1;
     for (int i = 0; i < uiInfoList.length; i++) {
       ChartUIInfo itemInfo = uiInfoList[i];
       if (abs(offset.dx - itemInfo.rect.left) +
-          abs(offset.dx - itemInfo.rect.right) <
+              abs(offset.dx - itemInfo.rect.right) <
           minDistance) {
         minDistance = abs(offset.dx - itemInfo.rect.left) +
             abs(offset.dx - itemInfo.rect.right);
         position = i;
       }
     }
-    selIndex=position;
-    printLog(message: "选中了:$position",methodName: "hitTestSelf");
+    selIndex = position;
+    printLog(message: "选中了:$position", methodName: "hitTestSelf");
     ChartUIInfo itemInfo = uiInfoList[position];
     return style.chartClick!(itemInfo.data, itemInfo.position, itemInfo.rect);
   }
