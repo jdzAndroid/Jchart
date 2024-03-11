@@ -19,6 +19,7 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
 
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {
+    uiInfoList.clear();
     if (dataList.isEmpty) {
       printLog(message: "折线图数据为空", methodName: "draw");
       return;
@@ -151,6 +152,7 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
             rect.left + itemCircleRadius);
         startCenterY = max(min(startCenterY, rect.bottom - itemCircleRadius),
             rect.top + itemCircleRadius);
+        startOffset = Offset(startCenterX, startCenterY);
       }
 
       if (itemShowCircle) {
@@ -161,20 +163,26 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
           case PaintingStyle.fill:
             paint.color =
                 selIndex == index ? itemCircleSelColor : itemCircleColor;
-            context.canvas.drawCircle(
-                Offset(startCenterX, startCenterY), itemCircleRadius, paint);
+            context.canvas.drawCircle(startOffset, itemCircleRadius, paint);
+            uiInfoList.add(ChartUIInfo(
+                data: itemData,
+                rect: Rect.fromCircle(center: startOffset, radius: itemCircleRadius),
+                position: index));
             break;
           default:
             paint.color = selIndex == index
                 ? itemCircleSelStrokeColor
                 : itemCircleStrokeColor;
-            context.canvas.drawCircle(Offset(startCenterX, startCenterY),
+            context.canvas.drawCircle(startOffset,
                 itemCircleStrokeRadius, paint);
 
             paint.color =
                 selIndex == index ? itemCircleSelColor : itemCircleColor;
-            context.canvas.drawCircle(
-                Offset(startCenterX, startCenterY), itemCircleRadius, paint);
+            context.canvas.drawCircle(startOffset, itemCircleRadius, paint);
+            uiInfoList.add(ChartUIInfo(
+                data: itemData,
+                rect: Rect.fromCircle(center: startOffset, radius: itemCircleStrokeRadius),
+                position: index));
             break;
         }
       }
@@ -216,8 +224,9 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
           paint.color = dashColor;
         }
         solid = !solid;
-        canvas.drawPath(itemPathMetrics.extractPath(startDistance, endDistance), paint);
-        startDistance=endDistance;
+        canvas.drawPath(
+            itemPathMetrics.extractPath(startDistance, endDistance), paint);
+        startDistance = endDistance;
       }
     }
   }

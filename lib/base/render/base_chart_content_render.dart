@@ -28,7 +28,8 @@ abstract class BaseChartContentRender<
       return false;
     }
     double minDistance = info.w;
-    int position = 0;
+    selIndex=-1;
+    int position=-1;
     for (int i = 0; i < uiInfoList.length; i++) {
       ChartUIInfo itemInfo = uiInfoList[i];
       if (abs(offset.dx - itemInfo.rect.left) +
@@ -39,6 +40,8 @@ abstract class BaseChartContentRender<
         position = i;
       }
     }
+    selIndex=position;
+    printLog(message: "选中了:$position",methodName: "hitTestSelf");
     ChartUIInfo itemInfo = uiInfoList[position];
     return style.chartClick!(itemInfo.data, itemInfo.position, itemInfo.rect);
   }
