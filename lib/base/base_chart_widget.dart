@@ -130,8 +130,14 @@ class BaseChartRenderObject extends RenderBox {
     if (chartBean.chartRenderList == null) {
       return false;
     }
+
+    bool needRefresh = false;
     for (BaseChartContentRender render in chartBean.chartRenderList!) {
       render.hitTestSelf(position);
+      needRefresh = true;
+    }
+    if (needRefresh) {
+      markNeedsPaint();
     }
     return true;
   }
@@ -153,8 +159,8 @@ class BaseChartRenderObject extends RenderBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     super.paint(context, offset);
-    if(chartBean.xMin>=chartBean.xMax)return;
-    if(chartBean.yMin>=chartBean.yMax)return;
+    if (chartBean.xMin >= chartBean.xMax) return;
+    if (chartBean.yMin >= chartBean.yMax) return;
     double w = chartBean.width ?? constraints.maxWidth;
     double h = chartBean.height ?? constraints.maxHeight;
     BaseDrawInfo drawInfo = BaseDrawInfo(

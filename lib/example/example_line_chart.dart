@@ -91,10 +91,13 @@ class ExampleLineChart extends StatelessWidget {
                         dashColor: Colors.transparent,
                         lineColor: Colors.yellow,
                         showCircle: true,
-                        circleRadius: 8,
-                        circleStyle: PaintingStyle.fill,
+                        circleRadius: 5,
+                        circleStrokeRadius: 8,
+                        circleStyle: PaintingStyle.stroke,
                         circleColor: Colors.red,
+                        circleStrokeColor: Colors.blue,
                         circleSelColor: Colors.purpleAccent,
+                        circleStrokeSelColor: Colors.purple
 
                       ),
                       dataList: List.generate(
