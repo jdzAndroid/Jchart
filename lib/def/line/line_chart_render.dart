@@ -201,7 +201,7 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
     double startDistance = 0;
     double endDistance = 0;
     bool solid = true;
-    paint.style = PaintingStyle.fill;
+    paint.style = PaintingStyle.stroke;
     paint.isAntiAlias = true;
     paint.strokeWidth = 1;
     for (var itemPathMetrics in pathMetrics) {
@@ -215,9 +215,8 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
           endDistance = startDistance + dashWidth;
           paint.color = dashColor;
         }
-        Path itemPath = itemPathMetrics.extractPath(startDistance, endDistance);
         solid = !solid;
-        canvas.drawPath(itemPath, paint);
+        canvas.drawPath(itemPathMetrics.extractPath(startDistance, endDistance), paint);
         startDistance=endDistance;
       }
     }
