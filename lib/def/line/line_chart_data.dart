@@ -6,7 +6,8 @@ import '../../line_type_enum.dart';
 ///Created by jdz on 2024/3/10 0010 21:41
 ///@brief 折线图数据
 class LineChartData extends BaseContentData {
-  Offset offset;
+  double xValue;
+  double yValue;
 
   ///线条类型
   LineTypeEnum? lineType;
@@ -34,7 +35,8 @@ class LineChartData extends BaseContentData {
   Color? circleStrokeSelColor;
 
   LineChartData(
-      {required this.offset,
+      {required this.xValue,
+      required this.yValue,
       this.lineType,
       this.width,
       this.dashWidth,

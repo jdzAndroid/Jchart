@@ -27,6 +27,16 @@ class ChartGlobalConfig {
   ///默认字体颜色
   static const Color fontColor = Colors.black;
 
+  ///默认虚线实体部分宽度
+  static const double lineSolidWidth=5;
+  ///默认虚线虚体部分宽度
+  static const double lineVisualWidth=3;
+
+  ///默认虚线实体部分线条颜色
+  static const Color lineSolidColor=Colors.black;
+  ///默认虚线虚体部分线条颜色
+  static const Color lineVisualColor=Colors.transparent;
+
   ///获取默认底部X轴刻度样式
   static ChartBottomScaleDefStyle getBottomScaleDefStyle() {
     return ChartBottomScaleDefStyle(
