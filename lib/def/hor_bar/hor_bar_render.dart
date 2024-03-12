@@ -1,9 +1,10 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jchart/helper/chart_helper.dart';
-import 'dart:ui' as ui;
+
 import '../../base/data/base_draw_info.dart';
 import '../../base/render/base_chart_content_render.dart';
 import 'hor_bar_data.dart';
@@ -25,7 +26,6 @@ class HorBarRender
     Color itemEndColor;
     double itemXStartValue, itemXEndValue;
     double itemYStartValue, itemYEndValue = 0;
-    double itemHeightRadius;
     String itemLabel = "";
     bool itemShowLabel;
     TextStyle itemLabelStyle;
@@ -37,8 +37,8 @@ class HorBarRender
     double itemStrokeWidth;
     TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
 
-    double perH = rect.height / (info.yMax - info.yMin + 1);
-    double perW = rect.width / (info.xMax - info.xMin + 1);
+    double perH = rect.height / (info.yMax - info.yMin);
+    double perW = rect.width / (info.xMax - info.xMin);
     paint.isAntiAlias = true;
     for (int index = 0; index < dataList.length; index++) {
       HorBarData itemData = dataList[index];
@@ -47,13 +47,14 @@ class HorBarRender
           itemData.xStartValue > itemData.xEndValue) {
         continue;
       }
-      if (itemData.yValue < info.yMin || itemData.yValue > info.yMax) {
+      if (itemData.yStartValue < info.yMin ||
+          itemData.yEndValue > info.yMax ||
+          itemData.yStartValue > itemData.yEndValue) {
         continue;
       }
       paint.shader = null;
       itemStartColor = itemData.startColor ?? style.startColor;
       itemEndColor = itemData.endColor ?? style.endColor;
-      itemHeightRadius = itemData.heightRadius ?? style.heightRadius;
       itemShowLabel = itemData.showLabel ?? style.showLabel;
       itemBarLeftRadius = itemData.barLeftRadius ?? style.barLeftRadius;
       itemBarRightRadius = itemData.barRightRadius ?? style.barRightRadius;
@@ -64,21 +65,21 @@ class HorBarRender
       itemLabelLeft = itemData.labelLeft ?? style.labelLeft;
       if (itemShowLabel) {
         if (style.getLabel != null) {
-          itemLabel = style.getLabel!(itemData.yValue);
+          itemLabel = style.getLabel!(itemData.yStartValue, itemData.yEndValue);
         } else {
           itemLabel = itemData.label ?? "";
         }
       }
 
       itemXStartValue = rect.left + perW * (itemData.xStartValue - info.xMin);
-      itemXEndValue = rect.left + perW * (itemData.xEndValue - info.xMin + 1);
+      itemXEndValue = rect.left + perW * (itemData.xEndValue - info.xMin);
 
-      itemYStartValue = rect.top + (itemData.yValue - info.yMin + 0.5) * perH;
-      itemYStartValue -= perH * itemHeightRadius / 2;
-      itemYEndValue += perH * itemHeightRadius;
+      itemYStartValue = rect.top + (itemData.yStartValue - info.yMin) * perH;
+
+      itemYEndValue = rect.top + (itemData.yEndValue - info.yMin) * perH;
       printLog(
           message:
-              "perW=$perW,perH=$perH,itemHeightRadius=$itemHeightRadius,itemXStartValue=$itemXStartValue,itemXEndValue=$itemXEndValue,itemYStartValue=$itemYStartValue,itemYEndValue=$itemYEndValue");
+              "perW=$perW,perH=$perH,itemXStartValue=$itemXStartValue,itemXEndValue=$itemXEndValue,itemYStartValue=$itemYStartValue,itemYEndValue=$itemYEndValue");
       if (itemStartColor != itemEndColor) {
         paint.shader = ui.Gradient.linear(
             Offset(itemXStartValue, itemYStartValue),
@@ -90,6 +91,7 @@ class HorBarRender
         paint.color = itemStartColor;
       }
       Rect itemRect;
+      paint.style = itemBarStyle;
       if (itemBarStyle == PaintingStyle.fill) {
         itemRect = Rect.fromLTRB(
             itemXStartValue, itemYStartValue, itemXEndValue, itemYEndValue);
@@ -124,9 +126,7 @@ class HorBarRender
                         itemLabelPadding.right,
                     rect.left + itemLabelPadding.left),
                 min(
-                    itemYStartValue +
-                        perH * itemHeightRadius / 2 -
-                        textPainter.height / 2,
+                    (itemYStartValue + itemYEndValue - textPainter.height) / 2,
                     rect.bottom -
                         textPainter.height -
                         itemLabelPadding.bottom)));
@@ -137,9 +137,7 @@ class HorBarRender
                 min(itemXEndValue + itemLabelPadding.left,
                     rect.right - itemLabelPadding.right - textPainter.width),
                 min(
-                    itemYStartValue +
-                        perH * itemHeightRadius / 2 -
-                        textPainter.height / 2,
+                    (itemYStartValue + itemYEndValue - textPainter.height) / 2,
                     rect.bottom -
                         textPainter.height -
                         itemLabelPadding.bottom)));

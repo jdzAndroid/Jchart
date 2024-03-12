@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:jchart/def/hor_bar/hor_bar_data.dart';
 import 'package:jchart/def/hor_bar/hor_bar_render.dart';
@@ -76,29 +78,30 @@ class ExampleHorBarChart extends BaseExampleChartWidget {
       chartRenderList: [
         HorBarRender(
             style: HorBarStyle(
-              heightRadius: 0.8,
               showLabel: true,
-              labelTextStyle: TextStyle(color: Colors.blueAccent.shade200,fontSize: 12),
-              startColor: Colors.white,
+                labelTextStyle:
+                    TextStyle(color: Colors.blueAccent.shade200, fontSize: 20),
+                startColor: Colors.white,
               endColor: Colors.red,
-              labelPadding: EdgeInsets.zero,
-              barLeftRadius: Radius.zero,
+                labelPadding: EdgeInsets.only(left: 5),
+                barLeftRadius: Radius.zero,
               barRightRadius: Radius.zero,
               labelLeft: true,
               strokeWidth: 5,
               barStyle: PaintingStyle.fill
             ),
             dataList: List.generate(
-                6,
+                5,
                 (index) => HorBarData(
                   startColor: null,
                   endColor: null,
-                  yValue: index*20,
-                  xStartValue: 1,
+                      yStartValue: max(1, 100 - (index + 1) * 20),
+                      yEndValue: 100 - index * 20,
+                      xStartValue: 1,
                   xEndValue: (index+1)*2,
                   label: (index+1).toString(),
-                  labelLeft: true,
-                )))
+                      labelLeft: false,
+                    )))
       ],
     );
   }

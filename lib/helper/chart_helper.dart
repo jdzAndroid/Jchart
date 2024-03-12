@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 typedef GetLabel = String Function(double value);
 
+typedef GetLabel2 = String Function(double value, double value2);
+
 ///图表点击回调
 ///@param t 数据
 ///@param position 点在图表中的位置

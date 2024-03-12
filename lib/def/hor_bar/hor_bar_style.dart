@@ -8,8 +8,7 @@ import '../../helper/chart_helper.dart';
 class HorBarStyle extends BaseChartContentStyle {
   Color startColor;
   Color endColor;
-  double heightRadius = 1;
-  GetLabel? getLabel;
+  GetLabel2? getLabel;
   bool showLabel;
   TextStyle labelTextStyle;
   EdgeInsets labelPadding;
@@ -21,9 +20,7 @@ class HorBarStyle extends BaseChartContentStyle {
   ///当柱子为空心的时候，表示边框粗细
   double strokeWidth = 0;
 
-  HorBarStyle(
-      {this.heightRadius = 1,
-      this.getLabel,
+  HorBarStyle({this.getLabel,
       this.showLabel = false,
       required this.labelTextStyle,
       required this.startColor,

@@ -7,10 +7,10 @@ import '../../base/data/base_content_data.dart';
 class HorBarData extends BaseContentData {
   Color? startColor;
   Color? endColor;
-  double yValue;
   double xStartValue;
   double xEndValue;
-  double? heightRadius;
+  double yStartValue;
+  double yEndValue;
   String? label;
   bool? showLabel;
   TextStyle? labelTextStyle;
@@ -26,10 +26,10 @@ class HorBarData extends BaseContentData {
   HorBarData(
       {this.startColor,
       this.endColor,
-      required this.yValue,
       required this.xStartValue,
       required this.xEndValue,
-      this.heightRadius,
+      required this.yStartValue,
+      required this.yEndValue,
       this.label,
       this.showLabel,
       this.labelTextStyle,

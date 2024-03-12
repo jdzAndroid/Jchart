@@ -21,14 +21,14 @@ class BaseChartXGridRender<STYLE extends BaseChartXGridStyle,
       printLog(message: "X轴网格线数据为空，跳过绘制", methodName: "draw");
       return;
     }
-    paint.style = PaintingStyle.stroke;
+    paint.style = PaintingStyle.fill;
     paint.isAntiAlias = true;
 
     double lineHeight = 0;
     double lineY = 0;
     double width=style.width??rect.width;
 
-    double perHeight=rect.height/(info.yMax-info.yMin+1);
+    double perHeight = rect.height / (info.yMax - info.yMin);
 
     for (var itemData in dataList) {
       paint.color = itemData.color ?? style.color ?? Colors.black;
