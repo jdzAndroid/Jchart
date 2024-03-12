@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jchart/example/example_bar_chart.dart';
+import 'package:jchart/example/example_hor_bar_chart.dart';
 import 'package:jchart/example/example_line_chart.dart';
 
 void main() {
@@ -66,6 +67,15 @@ class HomeBodyWidget extends StatelessWidget {
         gW: (ctx) => const Text("折线图"),
         getContent: (ctx) {
           return ExampleLineChart(
+            width: width,
+            height: height,
+          );
+        }));
+    menuList.add(PopMenuType(
+        title: "条形图",
+        gW: (ctx) => const Text("条形图"),
+        getContent: (ctx) {
+          return ExampleHorBarChart(
             width: width,
             height: height,
           );
