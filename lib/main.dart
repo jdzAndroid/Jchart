@@ -4,6 +4,8 @@ import 'package:jchart/example/example_bar_chart.dart';
 import 'package:jchart/example/example_hor_bar_chart.dart';
 import 'package:jchart/example/example_line_chart.dart';
 
+import 'example/example_curve_chart.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -76,6 +78,15 @@ class HomeBodyWidget extends StatelessWidget {
         gW: (ctx) => const Text("条形图"),
         getContent: (ctx) {
           return ExampleHorBarChart(
+            width: width,
+            height: height,
+          );
+        }));
+    menuList.add(PopMenuType(
+        title: "曲线图",
+        gW: (ctx) => const Text("曲线图"),
+        getContent: (ctx) {
+          return ExampleCurveChart(
             width: width,
             height: height,
           );
