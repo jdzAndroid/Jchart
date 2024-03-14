@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 
 import '../../base/data/base_draw_info.dart';
@@ -17,12 +18,8 @@ class BarChartRender
 
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {
-    printLog(
-        message:
-            "left=${rect.left},top=${rect.top},right=${rect.right},bottom=${rect.bottom}",
-        methodName: "draw");
     if (dataList.isEmpty) {
-      printLog(message: "没有数据", methodName: "draw");
+      printLog(message: "柱状图数据为空，跳过绘制", methodName: "draw");
       return;
     }
     int position = dataList.length;

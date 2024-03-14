@@ -17,20 +17,20 @@ class ExampleBarChart extends BaseExampleChartWidget {
       height: height,
       xGridRender: BaseChartXGridRender(
           dataList: List.generate(
-              5,
+              4,
               (index) => BaseChartXGridData(
                   value: 20.0 * (index + 1), color: Colors.primaries[index])),
           style: ChartGlobalConfig.getXGridDefStyle()..color = Colors.red),
       yGridRender: BaseChartYGridRender(
           dataList: List.generate(
-              12,
+              0,
               (index) => BaseChartYGridData(
                   value: (index + 1).toDouble(),
                   color: Colors.primaries[index])),
           style: ChartGlobalConfig.getYGridDefStyle()..color = Colors.red),
       leftScaleRender: BaseChartYScaleRender(
           dataList: List.generate(
-              5,
+              0,
               (index) => BaseYScaleData(
                   value: 20.0 * (index + 1),
                   label: (20 * (index + 1)).toString(),
@@ -44,7 +44,7 @@ class ExampleBarChart extends BaseExampleChartWidget {
           left: true),
       rightScaleRender: BaseChartYScaleRender(
           dataList: List.generate(
-              5,
+              0,
               (index) => BaseYScaleData(
                   value: 20.0 * (index + 1),
                   label: (20 * (index + 1)).toString())),
@@ -56,38 +56,39 @@ class ExampleBarChart extends BaseExampleChartWidget {
           left: false),
       bottomScaleRender: BaseChartXScaleRender(
           dataList: List.generate(
-              12,
+              0,
               (index) => BaseXScaleData(
                   value: (index + 1), label: ((index + 1)).toString())),
           style: ChartGlobalConfig.getBottomScaleDefStyle()
             ..labelAlign = Alignment.center,
           top: false),
-      topScaleRender: BaseChartXScaleRender(
-          dataList: List.generate(
-              12,
-              (index) => BaseXScaleData(
-                  value: (index + 1.0), label: ((index + 1)).toString())),
-          style: ChartGlobalConfig.getTopScaleDefStyle()
-            ..labelAlign = Alignment.center,
-          top: true),
-      chartRenderList: [
-        BarChartRender(
-            style: BarChartStyle(
-                startColor: Colors.yellow,
-                endColor: Colors.red,
-                topRadius: const Radius.circular(16),
-                bottomRadius: const Radius.circular(16),
-                radius: 0.8),
-            dataList: List.generate(
-                12,
-                (index) => BarChartData(
-                    xValue: (index + 1).toDouble(),
-                    startValue: 1,
-                    endValue: (index + 1) * 8,
-                    topRadius: const Radius.circular(16),
-                    bottomRadius: const Radius.circular(16),
-                    radius: 0.7)))
-      ],
+      // topScaleRender: BaseChartXScaleRender(
+      //     dataList: List.generate(
+      //         0,
+      //         (index) => BaseXScaleData(
+      //             value: (index + 1.0), label: ((index + 1)).toString())),
+      //     style: ChartGlobalConfig.getTopScaleDefStyle()
+      //       ..labelAlign = Alignment.center,
+      //     top: true),
+      // chartRenderList: [
+      //   BarChartRender(
+      //       style: BarChartStyle(
+      //           startColor: Colors.yellow,
+      //           endColor: Colors.red,
+      //           topRadius: const Radius.circular(16),
+      //           bottomRadius: const Radius.circular(16),
+      //           radius: 0.8),
+      //       dataList: List.generate(
+      //           0,
+      //           (index) => BarChartData(
+      //               xValue: (index + 1).toDouble(),
+      //               startValue: 1,
+      //               endValue: (index + 1) * 8,
+      //               topRadius: const Radius.circular(16),
+      //               bottomRadius: const Radius.circular(16),
+      //               radius: 0.7))
+      //   )
+      // ],
     );
   }
 }

@@ -26,26 +26,26 @@ class BaseChartXGridRender<STYLE extends BaseChartXGridStyle,
 
     double lineHeight = 0;
     double lineY = 0;
-    double width=style.width??rect.width;
+    double width = style.lineWidth ?? rect.width;
 
     double perHeight = rect.height / (info.yMax - info.yMin);
 
     for (var itemData in dataList) {
       paint.color = itemData.color ?? style.color ?? Colors.black;
 
-      lineHeight = itemData.size ?? style.height ?? 1;
+      lineHeight = itemData.size ?? style.lineHeight ?? 1;
 
       paint.strokeWidth = lineHeight;
       if (style.getPosition != null) {
         lineY = style.getPosition!(itemData.value);
       } else {
-        lineY = rect.bottom -perHeight * (itemData.value-info.yMin);
+        lineY = rect.bottom - perHeight * (itemData.value - info.yMin);
       }
       lineY = max(lineY, rect.top + lineHeight / 2);
-      lineY = min(lineY, rect.bottom - 2*lineHeight);
+      lineY = min(lineY, rect.bottom - 2 * lineHeight);
 
-      context.canvas
-          .drawLine(Offset(rect.left, lineY), Offset(rect.left+width, lineY), paint);
+      context.canvas.drawLine(
+          Offset(rect.left, lineY), Offset(rect.left + width, lineY), paint);
     }
   }
 

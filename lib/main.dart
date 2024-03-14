@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     cWidth = MediaQuery.of(context).size.width * 0.95;
-    cHeight = MediaQuery.of(context).size.height * 0.3;
+    cHeight = MediaQuery.of(context).size.height * 0.35;
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -121,7 +121,6 @@ class HomeBodyWidget extends StatelessWidget {
             selIndex.value = index;
           },
           initialValue: "柱状图",
-          elevation: 10,
           shadowColor: Colors.grey,
           child: Row(
             mainAxisSize: MainAxisSize.max,

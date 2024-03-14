@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:jchart/helper/chart_helper.dart';
 
 import '../../def/chart_global_config.dart';
 import '../data/base_draw_info.dart';
@@ -21,6 +22,11 @@ class BaseChartXScaleRender<STYLE extends BaseChartXScaleStyle,
 
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {
+    if (dataList.isEmpty) {
+      printLog(message: "${top ? "顶部" : "底部"}X轴刻度线数据为空，跳过X轴刻度线绘制");
+      return;
+    }
+
     ///第一步，测量每个标签占用大小以及最大高度
     List<Size> labelSizeList = List.empty(growable: true);
     double maxLabelHeight = findMaxLabelHeight(labelSizeList);
@@ -34,7 +40,7 @@ class BaseChartXScaleRender<STYLE extends BaseChartXScaleStyle,
     double xLocation;
     double labelStartY = 0;
     double lineStartY = 0;
-    double lineHeight = style.height ?? ChartGlobalConfig.lineDefSize;
+    double lineHeight = style.lineHeight ?? ChartGlobalConfig.lineDefSize;
     EdgeInsets labelPadding;
     if (top) {
       if (style.showOut) {
@@ -140,7 +146,7 @@ class BaseChartXScaleRender<STYLE extends BaseChartXScaleStyle,
   @override
   Rect? getDrawArea() {
     if (dataList.isEmpty) {
-      double lineHeight = style.height ?? ChartGlobalConfig.lineDefSize;
+      double lineHeight = style.lineHeight ?? ChartGlobalConfig.lineDefSize;
       if (top) {
         return Rect.fromLTWH(0, 0, info.w, lineHeight);
       } else {
@@ -149,7 +155,7 @@ class BaseChartXScaleRender<STYLE extends BaseChartXScaleStyle,
     }
     List<Size> labelSizeList = List.empty(growable: true);
     double labelMaxHeight = findMaxLabelHeight(labelSizeList);
-    double lineHeight = style.height ?? ChartGlobalConfig.lineDefSize;
+    double lineHeight = style.lineHeight ?? ChartGlobalConfig.lineDefSize;
     if (top) {
       return Rect.fromLTWH(0, 0, info.w, labelMaxHeight + lineHeight);
     } else {

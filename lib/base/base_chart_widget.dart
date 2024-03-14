@@ -202,7 +202,6 @@ class BaseChartRenderObject extends RenderBox {
 
     chartBean.yGridRender?.info = drawInfo;
     chartBean.yGridRender?.draw(context, contentRect, contentRect);
-    //
     chartBean.leftScaleRender?.draw(context, leftScaleRect, contentRect);
 
     chartBean.topScaleRender?.draw(context, topScaleRect, contentRect);

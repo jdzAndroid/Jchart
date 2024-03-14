@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:jchart/helper/chart_helper.dart';
 
 import '../../base/data/base_draw_info.dart';
 import '../../base/render/base_chart_content_render.dart';
@@ -18,6 +19,7 @@ class CurveChartRender extends BaseChartContentRender<CurveChartStyle,
   void draw(PaintingContext context, Rect rect, Rect contentRect) {
     uiInfoList.clear();
     if (dataList.isEmpty) {
+      printLog(message: "贝塞尔曲线图数据为空，跳过绘制");
       return;
     }
     paint.style = PaintingStyle.fill;

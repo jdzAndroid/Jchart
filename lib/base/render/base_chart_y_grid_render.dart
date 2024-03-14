@@ -24,7 +24,7 @@ class BaseChartYGridRender<STYLE extends BaseChartYGridStyle,
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {
     if (dataList.isEmpty) {
-      printLog(message: "X轴网格线数据为空，跳过绘制", methodName: "draw");
+      printLog(message: "Y轴网格线数据为空，跳过绘制", methodName: "draw");
       return;
     }
     paint.style = PaintingStyle.fill;
@@ -32,7 +32,7 @@ class BaseChartYGridRender<STYLE extends BaseChartYGridStyle,
 
     double lineWidth = 0;
     double lineX = 0;
-    double height = style.height ?? rect.height;
+    double height = style.lineHeight ?? rect.height;
     double perWidth = rect.width / (info.xMax - info.xMin+1);
 
     for (var itemData in dataList) {
@@ -42,7 +42,8 @@ class BaseChartYGridRender<STYLE extends BaseChartYGridStyle,
       paint.color =
           itemData.color ?? style.color ?? ChartGlobalConfig.lineDefColor;
 
-      lineWidth = itemData.size ?? style.width ?? ChartGlobalConfig.lineDefSize;
+      lineWidth =
+          itemData.size ?? style.lineWidth ?? ChartGlobalConfig.lineDefSize;
 
       paint.strokeWidth = lineWidth;
       if (style.getPosition != null) {

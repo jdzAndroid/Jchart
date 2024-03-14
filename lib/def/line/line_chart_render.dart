@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jchart/def/chart_global_config.dart';
@@ -21,7 +20,7 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
   void draw(PaintingContext context, Rect rect, Rect contentRect) {
     uiInfoList.clear();
     if (dataList.isEmpty) {
-      printLog(message: "折线图数据为空", methodName: "draw");
+      printLog(message: "折线图数据为空，跳过绘制", methodName: "draw");
       return;
     }
     double perW = (rect.width) / (info.xMax - info.xMin + 1);
@@ -185,48 +184,6 @@ class LineChartRender extends BaseChartContentRender<LineChartStyle,
                 position: index));
             break;
         }
-      }
-    }
-  }
-
-  ///绘制虚线
-  ///@param path 线条路径
-  ///@param width 虚线实体部分宽度
-  ///@param dashWidth 虚线虚体部分宽度
-  ///@param color 虚线实体部分颜色
-  ///@param dashColor 虚线虚体部分颜色
-  ///@param lineHeight 线条高度
-  void drawVisualLine(
-      {required Path path,
-      required double width,
-      required double dashWidth,
-      required Color color,
-      required Color dashColor,
-      required double lineHeight,
-      required Paint paint,
-      required Canvas canvas}) {
-    PathMetrics pathMetrics = path.computeMetrics();
-    double startDistance = 0;
-    double endDistance = 0;
-    bool solid = true;
-    paint.style = PaintingStyle.stroke;
-    paint.isAntiAlias = true;
-    paint.strokeWidth = 1;
-    for (var itemPathMetrics in pathMetrics) {
-      solid = true;
-      startDistance = endDistance = 0;
-      while (endDistance < itemPathMetrics.length) {
-        if (solid) {
-          endDistance = startDistance + width;
-          paint.color = color;
-        } else {
-          endDistance = startDistance + dashWidth;
-          paint.color = dashColor;
-        }
-        solid = !solid;
-        canvas.drawPath(
-            itemPathMetrics.extractPath(startDistance, endDistance), paint);
-        startDistance = endDistance;
       }
     }
   }

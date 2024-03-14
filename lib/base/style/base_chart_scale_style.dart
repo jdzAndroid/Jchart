@@ -1,36 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:jchart/def/chart_global_config.dart';
 
 import '../../helper/chart_helper.dart';
+import '../../line_type_enum.dart';
 import 'base_chart_decoration_style.dart';
 
 ///Created by jdz on 2024/2/28 0028 23:11
 ///@brief 图表XY坐标轴刻度样式基类
 abstract class BaseChartScaleStyle extends BaseChartDecorationStyle {
   ///是否显示刻度值
-  bool? showLabel;
+  bool showLabel;
 
   ///标签文本对齐方式
   Alignment labelAlign = Alignment.center;
 
   ///标签文本样式
-  TextStyle labelStyle;
+  late TextStyle labelStyle;
 
   GetLabel? getLabel;
 
   ///用于设置标签值的内间距
-  EdgeInsets? labelPadding;
+  EdgeInsets labelPadding;
 
   ///标签值是否显示在刻度线外围
   bool showOut = true;
 
-  BaseChartScaleStyle(
-      {super.width,
-      super.height,
-      super.color,
-      this.showLabel,
+  BaseChartScaleStyle({super.color,
+    this.showLabel = true,
       this.labelAlign = Alignment.center,
-      required this.labelStyle,
+      TextStyle? labelStyle,
       this.getLabel,
-      this.labelPadding,
-      this.showOut = true});
+      this.labelPadding = EdgeInsets.zero,
+      this.showOut = true,
+      super.lineWidth,
+      super.lineHeight = ChartGlobalConfig.lineDefSize,
+      super.lineType = LineTypeEnum.line,
+      super.dashWidth,
+      super.dashColor}) {
+    this.labelStyle = labelStyle ??
+        const TextStyle(
+            fontSize: ChartGlobalConfig.fontSize,
+            color: ChartGlobalConfig.fontColor);
+  }
 }

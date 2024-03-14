@@ -20,6 +20,7 @@ class HorBarRender
   void draw(PaintingContext context, Rect rect, Rect contentRect) {
     uiInfoList.clear();
     if (dataList.isEmpty) {
+      printLog(message: "水平柱状图数据为空，跳过绘制");
       return;
     }
     Color itemStartColor;

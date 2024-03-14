@@ -28,19 +28,21 @@ class ChartGlobalConfig {
   static const Color fontColor = Colors.black;
 
   ///默认虚线实体部分宽度
-  static const double lineSolidWidth=5;
+  static const double lineSolidWidth = 5;
+
   ///默认虚线虚体部分宽度
-  static const double lineVisualWidth=3;
+  static const double lineVisualWidth = 3;
 
   ///默认虚线实体部分线条颜色
-  static const Color lineSolidColor=Colors.black;
+  static const Color lineSolidColor = Colors.black;
+
   ///默认虚线虚体部分线条颜色
-  static const Color lineVisualColor=Colors.transparent;
+  static const Color lineVisualColor = Colors.transparent;
 
   ///获取默认底部X轴刻度样式
   static ChartBottomScaleDefStyle getBottomScaleDefStyle() {
     return ChartBottomScaleDefStyle(
-        height: lineDefSize,
+        lineHeight: lineDefSize,
         color: lineDefColor,
         showLabel: true,
         labelStyle: const TextStyle(color: fontColor, fontSize: fontSize));
@@ -49,7 +51,7 @@ class ChartGlobalConfig {
   ///获取默认左边Y轴刻度样式
   static ChartLeftScaleDefStyle getLeftScaleDefStyle() {
     return ChartLeftScaleDefStyle(
-        width: lineDefSize,
+        lineWidth: lineDefSize,
         color: lineDefColor,
         showLabel: true,
         showOut: true,
@@ -59,7 +61,7 @@ class ChartGlobalConfig {
   ///获取默认右边Y轴刻度样式
   static ChartRightScaleDefStyle getRightScaleDefStyle() {
     return ChartRightScaleDefStyle(
-        width: lineDefSize,
+        lineWidth: lineDefSize,
         color: lineDefColor,
         showLabel: true,
         showOut: true,
@@ -69,7 +71,7 @@ class ChartGlobalConfig {
   ///获取默认顶部X轴刻度样式
   static ChartTopScaleDefStyle getTopScaleDefStyle() {
     return ChartTopScaleDefStyle(
-        height: lineDefSize,
+        lineHeight: lineDefSize,
         color: lineDefColor,
         showLabel: true,
         showOut: true,
@@ -78,11 +80,11 @@ class ChartGlobalConfig {
 
   ///获取默认顶部X轴网格线样式
   static ChartXGridDefStyle getXGridDefStyle() {
-    return ChartXGridDefStyle(height: lineDefSize, color: lineDefColor);
+    return ChartXGridDefStyle(lineHeight: lineDefSize, color: lineDefColor);
   }
 
   ///获取默认顶部Y轴网格线样式
   static ChartYGridDefStyle getYGridDefStyle() {
-    return ChartYGridDefStyle(width: lineDefSize, color: lineDefColor);
+    return ChartYGridDefStyle(lineWidth: lineDefSize, color: lineDefColor);
   }
 }

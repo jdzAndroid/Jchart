@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:jchart/helper/chart_helper.dart';
 
 import '../../def/chart_global_config.dart';
 import '../data/base_draw_info.dart';
@@ -21,6 +22,11 @@ class BaseChartYScaleRender<STYLE extends BaseChartYScaleStyle,
 
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {
+    if (dataList.isEmpty) {
+      printLog(message: "${left ? "左边" : "右边"}Y轴刻度数据为空，跳过该刻度线绘制");
+      return;
+    }
+
     ///第一步，测量每个标签占用大小以及最大高度
     List<Size> labelSizeList = List.empty(growable: true);
     double maxLabelWidth = findMaxLabelWidth(labelSizeList);
@@ -33,7 +39,7 @@ class BaseChartYScaleRender<STYLE extends BaseChartYScaleStyle,
     double yLocation;
     double labelStartX = 0;
     double lineStartX = 0;
-    double lineWidth = style.width ?? ChartGlobalConfig.lineDefSize;
+    double lineWidth = style.lineWidth ?? ChartGlobalConfig.lineDefSize;
     EdgeInsets labelPadding;
     if (left) {
       if (style.showOut) {
@@ -64,8 +70,7 @@ class BaseChartYScaleRender<STYLE extends BaseChartYScaleStyle,
         label = dataList[index].label ?? "";
       }
       DATA itemData = dataList[index];
-      labelPadding =
-          itemData.labelPadding ?? style.labelPadding ?? EdgeInsets.zero;
+      labelPadding = itemData.labelPadding ?? style.labelPadding;
       labelAlign = itemData.labelAlign ?? style.labelAlign;
       textStyle = itemData.textStyle ?? style.labelStyle;
       textPainter.text = TextSpan(text: label, style: textStyle);
@@ -84,7 +89,8 @@ class BaseChartYScaleRender<STYLE extends BaseChartYScaleStyle,
       }
       if (left) {
         if (style.showOut) {
-          textPainter.paint(context.canvas, Offset(labelStartX+labelPadding.left, yLocation));
+          textPainter.paint(context.canvas,
+              Offset(labelStartX + labelPadding.left, yLocation));
         } else {
           textPainter.paint(context.canvas,
               Offset(labelStartX + labelPadding.left, yLocation));
@@ -108,7 +114,7 @@ class BaseChartYScaleRender<STYLE extends BaseChartYScaleStyle,
   @override
   Rect? getDrawArea() {
     if (dataList.isEmpty) {
-      double lineWidth = style.width ?? ChartGlobalConfig.lineDefSize;
+      double lineWidth = style.lineWidth ?? ChartGlobalConfig.lineDefSize;
       if (left) {
         return Rect.fromLTWH(0, 0, lineWidth, info.h);
       } else {
@@ -117,7 +123,7 @@ class BaseChartYScaleRender<STYLE extends BaseChartYScaleStyle,
     }
     List<Size> labelSizeList = List.empty(growable: true);
     double maxLabelWidth = findMaxLabelWidth(labelSizeList);
-    double lineWidth = style.width ?? ChartGlobalConfig.lineDefSize;
+    double lineWidth = style.lineWidth ?? ChartGlobalConfig.lineDefSize;
     if (left) {
       return Rect.fromLTWH(0, 0, maxLabelWidth + lineWidth, info.h);
     } else {
@@ -141,7 +147,7 @@ class BaseChartYScaleRender<STYLE extends BaseChartYScaleStyle,
     String label;
     bool showLabel = false;
     for (var itemData in dataList) {
-      showLabel = itemData.showLabel ?? style.showLabel ?? false;
+      showLabel = itemData.showLabel ?? style.showLabel;
       if (!showLabel) {
         labelSizeList.add(Size.zero);
         continue;
@@ -159,7 +165,7 @@ class BaseChartYScaleRender<STYLE extends BaseChartYScaleStyle,
         continue;
       }
       textStyle = itemData.textStyle ?? style.labelStyle;
-      padding = itemData.labelPadding ?? style.labelPadding ?? EdgeInsets.zero;
+      padding = itemData.labelPadding ?? style.labelPadding;
       textPainter.text = TextSpan(text: label, style: textStyle);
       textPainter.layout();
       labelSizeList.add(Size(textPainter.width, textPainter.height));
