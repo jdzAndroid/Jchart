@@ -81,7 +81,7 @@ class ExampleCurveChart extends BaseExampleChartWidget {
                 shaderEndColor: Colors.yellow,
                 showLabel: true,
                 lineColor: Colors.green,
-                lineHeight: 10),
+                lineHeight: 1),
             dataList: List.generate(
                 4,
                 (index) => CurveChartData(

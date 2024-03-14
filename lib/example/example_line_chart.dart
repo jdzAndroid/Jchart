@@ -84,7 +84,7 @@ class ExampleLineChart extends BaseExampleChartWidget {
                 dashWidth: 3,
                 dashColor: Colors.transparent,
                 lineColor: Colors.yellow,
-                showCircle: false,
+                showCircle: true,
                 circleRadius: 5,
                 circleStrokeRadius: 8,
                 circleStyle: PaintingStyle.stroke,

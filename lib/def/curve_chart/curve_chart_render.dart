@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -71,11 +72,12 @@ class CurveChartRender extends BaseChartContentRender<CurveChartStyle,
       paint.strokeWidth = style.lineHeight;
       paint.color = style.lineColor;
       if (locationX[0] == locationX[1] && locationY[0] == locationY[1]) {
+        paint.style = PaintingStyle.fill;
         context.canvas.drawCircle(
             Offset(locationX[0], locationY[0]), style.lineHeight, paint);
         if (shaderStartColor[0] != null && shaderEndColor[0] != null) {
           paint.shader = ui.Gradient.linear(
-              Offset(locationX[0], locationY[0]),
+              Offset(locationX[0], min(locationY[0], locationY[1])),
               Offset(locationX[0], rect.bottom),
               [shaderStartColor[0]!, shaderEndColor[0]!],
               [0, 1],
@@ -84,10 +86,13 @@ class CurveChartRender extends BaseChartContentRender<CurveChartStyle,
         context.canvas.drawRect(
             Rect.fromLTRB(locationX[0], locationY[0], locationX[0], 0), paint);
       } else {
+        paint.shader = null;
+        paint.style = PaintingStyle.stroke;
         double centerX = locationX[0] + (locationX[1] - locationX[0]) * 0.35;
-        double centerY = locationY[0] + (locationY[1] - locationY[1]) * 0.65;
+        double centerY = locationY[0] + (locationY[1] - locationY[0]) * 0.65;
         itemPath.reset();
-        itemPath.moveTo(locationX[0], locationY[0]);
+
+        itemPath.moveTo(locationX[0] - 1, locationY[0] - 1);
         itemPath.cubicTo(locationX[0], locationY[0], centerX, centerY,
             locationX[1], locationY[1]);
         debugPrint(
@@ -97,10 +102,12 @@ class CurveChartRender extends BaseChartContentRender<CurveChartStyle,
         itemPath.lineTo(locationX[1], rect.bottom);
         itemPath.lineTo(locationX[0], rect.bottom);
         itemPath.close();
+        paint.style = PaintingStyle.fill;
         paint.shader = ui.Gradient.linear(
-            Offset(locationX[0], locationY[0]),
-            Offset(locationX[1], locationY[1]),
-            [shaderStartColor[0]!, shaderEndColor[0]!]);
+            Offset(locationX[0], min(locationY[0], locationY[1])),
+            Offset(locationX[0], rect.bottom),
+            [shaderStartColor[0]!, shaderEndColor[0]!],
+            [0.5, 1]);
 
         context.canvas.drawPath(itemPath, paint);
       }
