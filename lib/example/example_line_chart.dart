@@ -3,7 +3,7 @@ import 'package:jchart/def/line/line_chart_data.dart';
 import 'package:jchart/def/line/line_chart_render.dart';
 import 'package:jchart/def/line/line_chart_style.dart';
 import 'package:jchart/j_chart.dart';
-import 'package:jchart/line_type_enum.dart';
+import 'package:jchart/enum/line_type_enum.dart';
 
 import 'example_chart_widget.dart';
 

@@ -14,7 +14,7 @@ import 'hor_bar_style.dart';
 ///@brief 横向柱状图渲染器
 class HorBarRender
     extends BaseChartContentRender<HorBarStyle, BaseDrawInfo, HorBarData> {
-  HorBarRender({required super.dataList, required super.style});
+  HorBarRender();
 
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {

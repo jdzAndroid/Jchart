@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../def/bar/bar_chart_data.dart';
 import '../../helper/chart_helper.dart';
 import '../data/base_content_data.dart';
 import '../data/base_data.dart';
@@ -19,7 +18,7 @@ abstract class BaseChartContentRender<
   ///记录当前选中的图表位置，如果支持选中
   int selIndex = -1;
 
-  BaseChartContentRender({required super.dataList, required super.style});
+  BaseChartContentRender();
 
   ///图表点击回调
   ///@param offset 触摸点坐标

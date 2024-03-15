@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:jchart/def/chart_global_config.dart';
 
-import '../../line_type_enum.dart';
+import '../../enum/line_type_enum.dart';
 import 'base_chart_style.dart';
 
 ///Created by jdz on 2024/3/3 0003 11:24

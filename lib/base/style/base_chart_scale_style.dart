@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jchart/def/chart_global_config.dart';
 
 import '../../helper/chart_helper.dart';
-import '../../line_type_enum.dart';
+import '../../enum/line_type_enum.dart';
 import 'base_chart_decoration_style.dart';
 
 ///Created by jdz on 2024/2/28 0028 23:11

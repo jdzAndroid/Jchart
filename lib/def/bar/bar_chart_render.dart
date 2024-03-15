@@ -14,7 +14,7 @@ import 'bar_chart_style.dart';
 ///@brief 柱状图
 class BarChartRender
     extends BaseChartContentRender<BarChartStyle, BaseDrawInfo, BarChartData> {
-  BarChartRender({required super.dataList, required super.style});
+  BarChartRender();
 
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {

@@ -13,7 +13,7 @@ import 'curve_chart_style.dart';
 ///@brief 曲线图
 class CurveChartRender extends BaseChartContentRender<CurveChartStyle,
     BaseDrawInfo, CurveChartData> {
-  CurveChartRender({required super.dataList, required super.style});
+  CurveChartRender();
 
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {

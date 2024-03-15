@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:jchart/helper/chart_helper.dart';
 
 import '../data/base_data.dart';
 import '../data/base_draw_info.dart';
@@ -10,12 +11,28 @@ import '../style/base_chart_style.dart';
 ///@brief 图表渲染基类
 abstract class BaseChartRender<STYLE extends BaseChartStyle,
     INFO extends BaseDrawInfo, DATA extends BaseData> {
-  List<DATA> dataList;
-  late INFO info;
-  STYLE style;
-  Paint paint = Paint();
+  final List<DATA> _dataList = List.empty(growable: true);
+  late INFO _info;
+  late STYLE _style;
+  final Paint _paint = Paint();
 
-  BaseChartRender({required this.dataList, required this.style});
+  Paint get paint {
+    return _paint;
+  }
+
+  List<DATA> get dataList {
+    return _dataList;
+  }
+
+  INFO get info {
+    return _info;
+  }
+
+  STYLE get style {
+    return _style;
+  }
+
+  BaseChartRender();
 
   ///绘制
   ///@param rect 绘制区域
@@ -62,5 +79,24 @@ abstract class BaseChartRender<STYLE extends BaseChartStyle,
         startDistance = endDistance;
       }
     }
+  }
+
+  void setDataList(List<DATA>? list) {
+    printLog(
+        message: "update data size=${list?.length ?? 0}",
+        methodName: "setDataList");
+    _dataList.clear();
+    if (list == null || list.isEmpty) return;
+    _dataList.addAll(list);
+  }
+
+  void setInfo(INFO info) {
+    printLog(message: "update info $info}", methodName: "setInfo");
+    _info = info;
+  }
+
+  void setStyle(STYLE style) {
+    printLog(message: "update style $style", methodName: "setStyle");
+    _style = style;
   }
 }

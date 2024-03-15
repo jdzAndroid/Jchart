@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:jchart/def/chart_global_config.dart';
 import 'package:jchart/helper/chart_helper.dart';
-import 'package:jchart/line_type_enum.dart';
+import 'package:jchart/enum/line_type_enum.dart';
 
 import '../../base/data/base_draw_info.dart';
 import '../../base/render/base_chart_content_render.dart';
@@ -14,7 +14,7 @@ import 'line_chart_style.dart';
 ///@brief 折线图绘制
 class LineChartRender extends BaseChartContentRender<LineChartStyle,
     BaseDrawInfo, LineChartData> {
-  LineChartRender({required super.dataList, required super.style});
+  LineChartRender();
 
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {

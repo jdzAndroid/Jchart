@@ -12,8 +12,7 @@ abstract class BaseChartDecorationRender<
     INFO extends BaseDrawInfo,
     DATA extends BaseData> extends BaseChartRender<STYLE, INFO, DATA> {
 
-  BaseChartDecorationRender(
-      {required super.dataList, required super.style});
+  BaseChartDecorationRender();
 
   ///获取图表周边UI绘制区域,返回null，表示绘制区域自适应
   Rect? getDrawArea();

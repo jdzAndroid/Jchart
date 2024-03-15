@@ -8,6 +8,5 @@ import 'base_chart_decoration_render.dart';
 abstract class BaseChartGridRender<STYLE extends BaseChartGridStyle,
         INFO extends BaseDrawInfo, DATA extends BaseChartGridData>
     extends BaseChartDecorationRender<STYLE, INFO, DATA> {
-  BaseChartGridRender(
-      {required super.dataList, required super.style});
+  BaseChartGridRender();
 }

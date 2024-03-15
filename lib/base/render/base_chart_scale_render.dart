@@ -8,6 +8,5 @@ import 'base_chart_decoration_render.dart';
 ///@brief 图表标签绘制基类
 abstract class BaseChartScaleRender<STYLE extends BaseChartScaleStyle,
 INFO extends BaseDrawInfo,DATA extends BaseScaleData> extends BaseChartDecorationRender<STYLE,INFO,DATA>{
-  BaseChartScaleRender(
-      {required super.dataList, required super.style});
+  BaseChartScaleRender();
 }

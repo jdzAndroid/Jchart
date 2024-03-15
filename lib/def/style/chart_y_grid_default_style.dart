@@ -1,5 +1,5 @@
 import '../../base/style/base_chart_y_grid_style.dart';
-import '../../line_type_enum.dart';
+import '../../enum/line_type_enum.dart';
 import '../chart_global_config.dart';
 
 ///Created by jdz on 2024/3/2 0002 22:36

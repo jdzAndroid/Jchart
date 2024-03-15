@@ -14,7 +14,7 @@ import 'base_chart_grid_render.dart';
 class BaseChartYGridRender<STYLE extends BaseChartYGridStyle,
         INFO extends BaseDrawInfo, DATA extends BaseChartYGridData>
     extends BaseChartGridRender<STYLE, INFO, DATA> {
-  BaseChartYGridRender({required super.dataList, required super.style});
+  BaseChartYGridRender();
 
   @override
   Rect? getDrawArea() {

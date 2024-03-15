@@ -62,33 +62,33 @@ class ExampleBarChart extends BaseExampleChartWidget {
           style: ChartGlobalConfig.getBottomScaleDefStyle()
             ..labelAlign = Alignment.center,
           top: false),
-      // topScaleRender: BaseChartXScaleRender(
-      //     dataList: List.generate(
-      //         0,
-      //         (index) => BaseXScaleData(
-      //             value: (index + 1.0), label: ((index + 1)).toString())),
-      //     style: ChartGlobalConfig.getTopScaleDefStyle()
-      //       ..labelAlign = Alignment.center,
-      //     top: true),
-      // chartRenderList: [
-      //   BarChartRender(
-      //       style: BarChartStyle(
-      //           startColor: Colors.yellow,
-      //           endColor: Colors.red,
-      //           topRadius: const Radius.circular(16),
-      //           bottomRadius: const Radius.circular(16),
-      //           radius: 0.8),
-      //       dataList: List.generate(
-      //           0,
-      //           (index) => BarChartData(
-      //               xValue: (index + 1).toDouble(),
-      //               startValue: 1,
-      //               endValue: (index + 1) * 8,
-      //               topRadius: const Radius.circular(16),
-      //               bottomRadius: const Radius.circular(16),
-      //               radius: 0.7))
-      //   )
-      // ],
+      topScaleRender: BaseChartXScaleRender(
+          dataList: List.generate(
+              0,
+              (index) => BaseXScaleData(
+                  value: (index + 1.0), label: ((index + 1)).toString())),
+          style: ChartGlobalConfig.getTopScaleDefStyle()
+            ..labelAlign = Alignment.center,
+          top: true),
+      chartRenderList: [
+        BarChartRender(
+            style: BarChartStyle(
+                startColor: Colors.yellow,
+                endColor: Colors.red,
+                topRadius: const Radius.circular(16),
+                bottomRadius: const Radius.circular(16),
+                radius: 0.8),
+            dataList: List.generate(
+                0,
+                (index) => BarChartData(
+                    xValue: (index + 1).toDouble(),
+                    startValue: 1,
+                    endValue: (index + 1) * 8,
+                    topRadius: const Radius.circular(16),
+                    bottomRadius: const Radius.circular(16),
+                    radius: 0.7))
+        )
+      ],
     );
   }
 }

@@ -13,7 +13,7 @@ import 'base_chart_grid_render.dart';
 class BaseChartXGridRender<STYLE extends BaseChartXGridStyle,
         INFO extends BaseDrawInfo, DATA extends BaseChartXGridData>
     extends BaseChartGridRender<STYLE, INFO, DATA> {
-  BaseChartXGridRender({required super.dataList, required super.style});
+  BaseChartXGridRender();
 
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import '../../base/style/base_chart_content_style.dart';
-import '../../line_type_enum.dart';
+import '../../enum/line_type_enum.dart';
 
 ///Created by jdz on 2024/3/10 0010 21:42
 ///@brief 折线图样式

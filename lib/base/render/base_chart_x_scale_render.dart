@@ -17,8 +17,7 @@ class BaseChartXScaleRender<STYLE extends BaseChartXScaleStyle,
   ///表示是否是顶部X轴刻度线
   bool top = false;
 
-  BaseChartXScaleRender(
-      {required super.dataList, required super.style, this.top = false});
+  BaseChartXScaleRender();
 
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../def/chart_global_config.dart';
-import '../../line_type_enum.dart';
+import '../../enum/line_type_enum.dart';
 import 'base_chart_scale_style.dart';
 
 ///Created by jdz on 2024/2/29 13:13
