@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jchart/def/chart_global_config.dart';
 
 import '../../base/style/base_chart_content_style.dart';
 import '../../helper/chart_helper.dart';
@@ -10,7 +11,7 @@ class HorBarStyle extends BaseChartContentStyle {
   Color endColor;
   GetLabel2? getLabel;
   bool showLabel;
-  TextStyle labelTextStyle;
+  late TextStyle labelTextStyle;
   EdgeInsets labelPadding;
   bool labelLeft;
   PaintingStyle barStyle;
@@ -22,7 +23,7 @@ class HorBarStyle extends BaseChartContentStyle {
 
   HorBarStyle({this.getLabel,
       this.showLabel = false,
-      required this.labelTextStyle,
+      TextStyle? labelStyle,
       required this.startColor,
       required this.endColor,
       this.labelPadding = EdgeInsets.zero,
@@ -30,5 +31,10 @@ class HorBarStyle extends BaseChartContentStyle {
       this.barRightRadius = Radius.zero,
       this.labelLeft = true,
       this.strokeWidth = 0,
-      this.barStyle = PaintingStyle.fill});
+      this.barStyle = PaintingStyle.fill}) {
+    labelTextStyle = labelStyle ??
+        const TextStyle(
+            color: ChartGlobalConfig.fontColor,
+            fontSize: ChartGlobalConfig.fontSize);
+  }
 }

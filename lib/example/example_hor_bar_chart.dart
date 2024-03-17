@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:jchart/def/hor_bar/hor_bar_data.dart';
-import 'package:jchart/def/hor_bar/hor_bar_render.dart';
-import 'package:jchart/def/hor_bar/hor_bar_style.dart';
+import 'package:jchart/enum/chart_type_enum.dart';
 import 'package:jchart/j_chart.dart';
 
 import 'example_chart_widget.dart';
@@ -20,88 +19,43 @@ class ExampleHorBarChart extends BaseExampleChartWidget {
       yMax: 100,
       width: width,
       height: height,
-      xGridRender: BaseChartXGridRender(
-          dataList: List.generate(
-              5,
-              (index) => BaseChartXGridData(
-                  value: 20.0 * (index + 1), color: Colors.primaries[index])),
-          style: ChartGlobalConfig.getXGridDefStyle()..color = Colors.red),
-      yGridRender: BaseChartYGridRender(
-          dataList: List.generate(
-              12,
-              (index) => BaseChartYGridData(
-                  value: (index + 1).toDouble(),
-                  color: Colors.primaries[index])),
-          style: ChartGlobalConfig.getYGridDefStyle()..color = Colors.red),
-      leftScaleRender: BaseChartYScaleRender(
-          dataList: List.generate(
-              5,
-              (index) => BaseYScaleData(
-                  value: 20.0 * (index + 1),
-                  label: (20 * (index + 1)).toString(),
-                  labelPadding:
-                      index == 4 ? null : const EdgeInsets.only(left: 4))),
-          style: ChartGlobalConfig.getLeftScaleDefStyle()
-            ..color = Colors.green
-            ..labelAlign = Alignment.center
-            ..showLabel = true
-            ..labelPadding = const EdgeInsets.only(right: 4),
-          left: true),
-      rightScaleRender: BaseChartYScaleRender(
-          dataList: List.generate(
-              5,
-              (index) => BaseYScaleData(
-                  value: 20.0 * (index + 1),
-                  label: (20 * (index + 1)).toString())),
-          style: ChartGlobalConfig.getRightScaleDefStyle()
-            ..color = Colors.green
-            ..labelAlign = Alignment.center
-            ..showLabel = true
-            ..labelPadding = const EdgeInsets.only(left: 2),
-          left: false),
-      bottomScaleRender: BaseChartXScaleRender(
-          dataList: List.generate(
-              12,
-              (index) => BaseXScaleData(
-                  value: (index + 1), label: ((index + 1)).toString())),
-          style: ChartGlobalConfig.getBottomScaleDefStyle()
-            ..labelAlign = Alignment.center,
-          top: false),
-      topScaleRender: BaseChartXScaleRender(
-          dataList: List.generate(
-              12,
-              (index) => BaseXScaleData(
-                  value: (index + 1.0), label: ((index + 1)).toString())),
-          style: ChartGlobalConfig.getTopScaleDefStyle()
-            ..labelAlign = Alignment.center,
-          top: true),
-      chartRenderList: [
-        HorBarRender(
-            style: HorBarStyle(
-              showLabel: true,
-                labelTextStyle:
-                    TextStyle(color: Colors.blueAccent.shade200, fontSize: 20),
-                startColor: Colors.white,
-              endColor: Colors.red,
-                labelPadding: EdgeInsets.only(left: 5),
-                barLeftRadius: Radius.zero,
-              barRightRadius: Radius.zero,
-              labelLeft: true,
-              strokeWidth: 5,
-              barStyle: PaintingStyle.fill
-            ),
-            dataList: List.generate(
-                5,
-                (index) => HorBarData(
+      xGridEnable: true,
+      xGridDataList: List.generate(
+          5,
+          (index) => BaseChartXGridData(
+              value: 20.0 * (index + 1), color: Colors.primaries[index])),
+      yGridEnable: true,
+      yGridDataList: List.generate(
+          12,
+          (index) => BaseChartYGridData(
+              value: (index + 1).toDouble(), color: Colors.primaries[index])),
+      yLeftScaleEnable: true,
+      yLeftScaleDataList: List.generate(
+          5,
+          (index) => BaseYScaleData(
+              value: 20.0 * (index + 1),
+              label: (20 * (index + 1)).toString(),
+              labelPadding:
+                  index == 4 ? null : const EdgeInsets.only(left: 4))),
+      xBottomScaleEnable: true,
+      xBottomScaleDataList: List.generate(
+          12,
+          (index) => BaseXScaleData(
+              value: (index + 1), label: ((index + 1)).toString())),
+      chartTypeList: const [ChartTypeEnum.horBar],
+      chartDataList: [
+        List.generate(
+            5,
+            (index) => HorBarData(
                   startColor: null,
                   endColor: null,
-                      yStartValue: max(1, 100 - (index + 1) * 20),
-                      yEndValue: 100 - index * 20,
-                      xStartValue: 1,
-                  xEndValue: (index+1)*2,
-                  label: (index+1).toString(),
-                      labelLeft: false,
-                    )))
+                  yStartValue: max(1, 100 - (index + 1) * 20),
+                  yEndValue: 100 - index * 20,
+                  xStartValue: 1,
+                  xEndValue: (index + 1) * 2,
+                  label: (index + 1).toString(),
+                  labelLeft: false,
+                ))
       ],
     );
   }

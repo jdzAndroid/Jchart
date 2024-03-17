@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jchart/enum/chart_type_enum.dart';
 import 'package:jchart/j_chart.dart';
 
 import 'example_chart_widget.dart';
@@ -15,79 +16,37 @@ class ExampleBarChart extends BaseExampleChartWidget {
       yMax: 100,
       width: width,
       height: height,
-      xGridRender: BaseChartXGridRender(
-          dataList: List.generate(
-              4,
-              (index) => BaseChartXGridData(
-                  value: 20.0 * (index + 1), color: Colors.primaries[index])),
-          style: ChartGlobalConfig.getXGridDefStyle()..color = Colors.red),
-      yGridRender: BaseChartYGridRender(
-          dataList: List.generate(
-              0,
-              (index) => BaseChartYGridData(
-                  value: (index + 1).toDouble(),
-                  color: Colors.primaries[index])),
-          style: ChartGlobalConfig.getYGridDefStyle()..color = Colors.red),
-      leftScaleRender: BaseChartYScaleRender(
-          dataList: List.generate(
-              0,
-              (index) => BaseYScaleData(
-                  value: 20.0 * (index + 1),
-                  label: (20 * (index + 1)).toString(),
-                  labelPadding:
-                      index == 4 ? null : const EdgeInsets.only(left: 4))),
-          style: ChartGlobalConfig.getLeftScaleDefStyle()
-            ..color = Colors.green
-            ..labelAlign = Alignment.center
-            ..showLabel = true
-            ..labelPadding = const EdgeInsets.only(right: 4),
-          left: true),
-      rightScaleRender: BaseChartYScaleRender(
-          dataList: List.generate(
-              0,
-              (index) => BaseYScaleData(
-                  value: 20.0 * (index + 1),
-                  label: (20 * (index + 1)).toString())),
-          style: ChartGlobalConfig.getRightScaleDefStyle()
-            ..color = Colors.green
-            ..labelAlign = Alignment.center
-            ..showLabel = true
-            ..labelPadding = EdgeInsets.only(left: 2),
-          left: false),
-      bottomScaleRender: BaseChartXScaleRender(
-          dataList: List.generate(
-              0,
-              (index) => BaseXScaleData(
-                  value: (index + 1), label: ((index + 1)).toString())),
-          style: ChartGlobalConfig.getBottomScaleDefStyle()
-            ..labelAlign = Alignment.center,
-          top: false),
-      topScaleRender: BaseChartXScaleRender(
-          dataList: List.generate(
-              0,
-              (index) => BaseXScaleData(
-                  value: (index + 1.0), label: ((index + 1)).toString())),
-          style: ChartGlobalConfig.getTopScaleDefStyle()
-            ..labelAlign = Alignment.center,
-          top: true),
-      chartRenderList: [
-        BarChartRender(
-            style: BarChartStyle(
-                startColor: Colors.yellow,
-                endColor: Colors.red,
+      xGridEnable: true,
+      chartTypeList: const [ChartTypeEnum.bar],
+      xGridDataList: List.generate(
+          5,
+          (index) => BaseChartXGridData(
+              value: (index + 1) * 20.0, color: Colors.primaries[index])),
+      yGridEnable: true,
+      yGridDataList: List.generate(
+          12,
+          (index) => BaseChartYGridData(
+              value: index + 1, color: Colors.primaries[index])),
+      yLeftScaleEnable: true,
+      yLeftScaleDataList: List.generate(
+          5,
+          (index) => BaseYScaleData(
+              value: (index + 1) * 20, label: ((index + 1) * 20).toString())),
+      xBottomScaleEnable: true,
+      xBottomScaleDataList: List.generate(
+          12,
+          (index) => BaseXScaleData(
+              value: (index + 1), label: ((index + 1)).toString())),
+      chartDataList: [
+        List.generate(
+            12,
+            (index) => BarChartData(
+                xValue: (index + 1).toDouble(),
+                startValue: 1,
+                endValue: (index + 1) * 8,
                 topRadius: const Radius.circular(16),
                 bottomRadius: const Radius.circular(16),
-                radius: 0.8),
-            dataList: List.generate(
-                0,
-                (index) => BarChartData(
-                    xValue: (index + 1).toDouble(),
-                    startValue: 1,
-                    endValue: (index + 1) * 8,
-                    topRadius: const Radius.circular(16),
-                    bottomRadius: const Radius.circular(16),
-                    radius: 0.7))
-        )
+                radius: 0.7))
       ],
     );
   }

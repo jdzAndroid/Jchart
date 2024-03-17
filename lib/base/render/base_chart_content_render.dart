@@ -53,6 +53,10 @@ abstract class BaseChartContentRender<
     }
     return value;
   }
+
+  bool validStyle(BaseChartContentStyle chartStyle) {
+    return chartStyle is STYLE;
+  }
 }
 
 ///用于描述图表绘制数据

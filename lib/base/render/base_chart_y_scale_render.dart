@@ -17,7 +17,7 @@ class BaseChartYScaleRender<STYLE extends BaseChartYScaleStyle,
   ///表示是否是左边Y轴刻度线
   bool left = false;
 
-  BaseChartYScaleRender();
+  BaseChartYScaleRender({required this.left});
 
   @override
   void draw(PaintingContext context, Rect rect, Rect contentRect) {

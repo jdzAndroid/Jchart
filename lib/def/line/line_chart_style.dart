@@ -7,7 +7,7 @@ import '../../enum/line_type_enum.dart';
 ///@brief 折线图样式
 class LineChartStyle extends BaseChartContentStyle {
   ///线条类型
-  LineTypeEnum? lineType;
+  LineTypeEnum lineType;
 
   ///虚线实体部分宽度
   double? width;
@@ -20,7 +20,7 @@ class LineChartStyle extends BaseChartContentStyle {
   Color? lineColor;
   Color? dashColor;
 
-  bool? showCircle;
+  bool showCircle;
   double? circleRadius;
   double? circleStrokeRadius;
   PaintingStyle? circleStyle;
@@ -30,14 +30,13 @@ class LineChartStyle extends BaseChartContentStyle {
   Color? circleStrokeSelColor;
   bool? supportSel;
 
-  LineChartStyle(
-      {this.lineType,
+  LineChartStyle({this.lineType = LineTypeEnum.line,
       this.width,
       this.dashWidth,
       this.lineSize,
       this.lineColor,
       this.dashColor,
-      this.showCircle,
+      this.showCircle = false,
       this.circleRadius,
       this.circleStrokeRadius,
       this.circleStyle,

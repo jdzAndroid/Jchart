@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:jchart/def/chart_global_config.dart';
 
-import '../def/style/chart_left_scale_def_style.dart';
 import '../enum/chart_type_enum.dart';
-import '../helper/chart_helper.dart';
 import '../enum/line_type_enum.dart';
+import '../helper/chart_helper.dart';
 import 'data/base_chart_x_grid_data.dart';
+import 'data/base_chart_y_grid_data.dart';
 import 'data/base_content_data.dart';
 import 'data/base_draw_info.dart';
+import 'data/base_x_scale_data.dart';
 import 'data/base_y_scale_data.dart';
 import 'render/base_chart_content_render.dart';
 import 'render/base_chart_x_grid_render.dart';
@@ -16,6 +18,7 @@ import 'render/base_chart_y_grid_render.dart';
 import 'render/base_chart_y_scale_render.dart';
 import 'style/base_chart_content_style.dart';
 import 'style/base_chart_x_grid_style.dart';
+import 'style/base_chart_x_scale_style.dart';
 import 'style/base_chart_y_grid_style.dart';
 import 'style/base_chart_y_scale_style.dart';
 
@@ -50,8 +53,8 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   ///X轴网格线颜色,如果没有设置，就采用全局配置
   final Color? xGridColor;
 
-  ///X轴网格线风格,如果没有设置，就采用全局配置
-  final LineTypeEnum? xGridLineStyle;
+  ///X轴网格线类别,如果没有设置，就采用全局配置
+  final LineTypeEnum? xGridLineType;
 
   ///X轴网格线数据
   final List<BaseChartXGridData>? xGridDataList;
@@ -60,10 +63,10 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   final double? xGridLineHeight;
 
   ///自定义X轴网格线样式,如果不为空，它的样式设置优先级最高
-  final BaseChartXGridStyle? xGridStyle;
+  BaseChartXGridStyle? xGridStyle;
 
   ///自定义网格线渲染器,如果为空就用默认的
-  final BaseChartXGridRender? xGridRender;
+  BaseChartXGridRender? xGridRender;
 
   /*图表Y轴网格线属性----------------------------------------------------------------------------------------------------------------------*/
 
@@ -74,19 +77,19 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   final Color? yGridColor;
 
   ///Y轴网格线风格,如果没有设置，就采用全局配置
-  final LineTypeEnum? yGridLineStyle;
+  final LineTypeEnum? yGridLineType;
 
   ///Y轴网格线数据
-  final List<BaseChartXGridData>? yGridDataList;
+  final List<BaseChartYGridData>? yGridDataList;
 
   ///Y轴网格线线条宽度,如果没有设置，就采用全局配置
-  final double? yGridLineHeight;
+  final double? yGridLineWidth;
 
   ///自定义Y轴网格线样式,如果不为空，它的样式设置优先级最高
-  final BaseChartYGridStyle? yGridStyle;
+  BaseChartYGridStyle? yGridStyle;
 
   ///自定义网格线渲染器,如果为空就用默认的
-  final BaseChartYGridRender? yGridRender;
+  BaseChartYGridRender? yGridRender;
 
   /*图表Y轴左侧刻度属性----------------------------------------------------------------------------------------------------------------------*/
 
@@ -94,7 +97,7 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   bool yLeftScaleEnable = true;
 
   ///Y轴左侧刻度线宽度,如果没有设置，就采用全局配置
-  final bool? yLeftScaleLineWidth;
+  final double? yLeftScaleLineWidth;
 
   ///Y轴左侧刻度线风格,如果没有设置，就采用全局配置
   final LineTypeEnum? yLeftScaleLineType;
@@ -115,10 +118,10 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   final double? yLeftScaleLabelSize;
 
   ///Y轴左侧刻度自定义，如果不为空，它的样式设置优先级最高
-  final BaseChartYScaleStyle? yLeftScaleStyle;
+  BaseChartYScaleStyle? yLeftScaleStyle;
 
   ///自定义Y轴左侧刻度渲染器
-  final BaseChartYScaleRender? yLeftScaleRender;
+  BaseChartYScaleRender? yLeftScaleRender;
 
   /*图表Y轴右侧刻度属性----------------------------------------------------------------------------------------------------------------------*/
 
@@ -126,7 +129,7 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   bool yRightScaleEnable = false;
 
   ///Y轴右侧刻度线宽度,如果没有设置，就采用全局配置
-  final bool? yRightScaleLineWidth;
+  final double? yRightScaleLineWidth;
 
   ///Y轴右侧刻度线风格,如果没有设置，就采用全局配置
   final LineTypeEnum? yRightScaleLineType;
@@ -147,10 +150,10 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   final double? yRightScaleLabelSize;
 
   ///Y轴右侧刻度自定义，如果不为空，它的样式设置优先级最高
-  final BaseChartYScaleStyle? yRightScaleStyle;
+  BaseChartYScaleStyle? yRightScaleStyle;
 
   ///自定义Y轴右侧刻度渲染器
-  final BaseChartYScaleRender? yRightScaleRender;
+  BaseChartYScaleRender? yRightScaleRender;
 
   /*图表X轴顶部刻度属性----------------------------------------------------------------------------------------------------------------------*/
 
@@ -158,13 +161,13 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   bool xTopScaleEnable = false;
 
   ///X轴顶部刻度线高度,如果没有设置，就采用全局配置
-  final bool? xTopScaleLineHeight;
+  final double? xTopScaleLineHeight;
 
   ///X轴顶部刻度线风格,如果没有设置，就采用全局配置
   final LineTypeEnum? xTopScaleLineType;
 
   ///X轴顶部刻度数据
-  final List<BaseYScaleData>? xTopScaleDataList;
+  final List<BaseXScaleData>? xTopScaleDataList;
 
   ///X轴顶部刻度线颜色,如果没有设置，就采用全局配置
   final Color? xTopScaleLineColor;
@@ -179,10 +182,10 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   final double? xTopScaleLabelSize;
 
   ///X轴顶部刻度自定义，如果不为空，它的样式设置优先级最高
-  final BaseChartYScaleStyle? xTopScaleStyle;
+  BaseChartXScaleStyle? xTopScaleStyle;
 
   ///自定义X轴顶部刻度渲染器
-  final BaseChartYScaleRender? xTopScaleRender;
+  BaseChartXScaleRender? xTopScaleRender;
 
   /*图表X轴底部刻度属性----------------------------------------------------------------------------------------------------------------------*/
 
@@ -190,13 +193,13 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   bool xBottomScaleEnable = true;
 
   ///X轴底部刻度线高度,如果没有设置，就采用全局配置
-  final bool? xBottomScaleLineHeight;
+  final double? xBottomScaleLineHeight;
 
   ///X轴底部刻度线风格,如果没有设置，就采用全局配置
   final LineTypeEnum? xBottomScaleLineType;
 
   ///X轴底部刻度数据
-  final List<BaseYScaleData>? xBottomScaleDataList;
+  final List<BaseXScaleData>? xBottomScaleDataList;
 
   ///X轴底部刻度线颜色,如果没有设置，就采用全局配置
   final Color? xBottomScaleLineColor;
@@ -211,16 +214,16 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   final double? xBottomScaleLabelSize;
 
   ///X轴底部刻度自定义，如果不为空，它的样式设置优先级最高
-  final BaseChartYScaleStyle? xBottomScaleStyle;
+  BaseChartXScaleStyle? xBottomScaleStyle;
 
   ///自定义X轴底部刻度渲染器
-  final BaseChartYScaleRender? xBottomScaleRender;
+  BaseChartXScaleRender? xBottomScaleRender;
 
   /*图表内容----------------------------------------------------------------------------------------------------------------------*/
 
   ///图表类型 如果为空或者是子项数据是 @link ChartTypeEnum.none 则表示不绘制任何内容
   ///但是注意 chartTypeList  chartStyleList  chartRenderList chartDataList 这三者的大小一定要一样并且子项数据顺序要一一对应
-  List<ChartTypeEnum> chartTypeList;
+  List<ChartTypeEnum>? chartTypeList;
 
   ///图表类型对应的风格样式,如果为空或者子项数据为空则表示，使用默认图表样式
   List<BaseChartContentStyle?>? chartStyleList;
@@ -229,137 +232,347 @@ class BaseChartWidget extends LeafRenderObjectWidget {
   List<BaseChartContentRender?>? chartRenderList;
 
   ///图表数据
-  List<List<BaseContentData>> chartDataList;
+  List<List<BaseContentData>?>? chartDataList;
 
-  BaseChartWidget({super.key,
-    this.width,
-    this.height,
-    required this.xMax,
-    required this.xMin,
-    required this.yMax,
-    required this.yMin,
-    required this.chartTypeList,
-    required this.chartDataList,
-    this.xGridEnable = false,
-    this.xGridColor,
-    this.xGridLineStyle,
-    this.xGridDataList,
-    this.xGridLineHeight,
-    this.xGridStyle,
-    this.xGridRender,
-    this.yGridEnable = false,
-    this.yGridColor,
-    this.yGridLineStyle,
-    this.yGridDataList,
-    this.yGridLineHeight,
-    this.yGridStyle,
-    this.yGridRender,
-    this.yLeftScaleEnable = true,
-    this.yLeftScaleLineWidth,
-    this.yLeftScaleLineType,
-    this.yLeftScaleDataList,
-    this.yLeftScaleLineColor,
-    this.yLeftScaleLabelAlign,
-    this.yLeftScaleLabelColor,
-    this.yLeftScaleLabelSize,
-    this.yLeftScaleStyle,
-    this.yLeftScaleRender,
-    this.yRightScaleEnable = false,
-    this.yRightScaleLineWidth,
-    this.yRightScaleLineType,
-    this.yRightScaleDataList,
-    this.yRightScaleLineColor,
-    this.yRightScaleLabelAlign,
-    this.yRightScaleLabelColor,
-    this.yRightScaleLabelSize,
-    this.yRightScaleStyle,
-    this.yRightScaleRender,
-    this.xTopScaleEnable = false,
-    this.xTopScaleLineHeight,
-    this.xTopScaleLineType,
-    this.xTopScaleDataList,
-    this.xTopScaleLineColor,
-    this.xTopScaleLabelAlign,
-    this.xTopScaleLabelColor,
-    this.xTopScaleLabelSize,
-    this.xTopScaleStyle,
-    this.xTopScaleRender,
-    this.xBottomScaleEnable = true,
-    this.xBottomScaleLineHeight,
-    this.xBottomScaleLineType,
-    this.xBottomScaleDataList,
-    this.xBottomScaleLineColor,
-    this.xBottomScaleLabelAlign,
-    this.xBottomScaleLabelColor,
-    this.xBottomScaleLabelSize,
-    this.xBottomScaleStyle,
-    this.xBottomScaleRender,
-    this.chartStyleList,
-    this.chartRenderList});
+  BaseChartWidget(
+      {super.key,
+      this.width,
+      this.height,
+      required this.xMax,
+      required this.xMin,
+      required this.yMax,
+      required this.yMin,
+      required this.chartTypeList,
+      required this.chartDataList,
+      this.xGridEnable = false,
+      this.xGridColor,
+      this.xGridLineType,
+      this.xGridDataList,
+      this.xGridLineHeight,
+      this.xGridStyle,
+      this.xGridRender,
+      this.yGridEnable = false,
+      this.yGridColor,
+      this.yGridLineType,
+      this.yGridDataList,
+      this.yGridLineWidth,
+      this.yGridStyle,
+      this.yGridRender,
+      this.yLeftScaleEnable = true,
+      this.yLeftScaleLineWidth,
+      this.yLeftScaleLineType,
+      this.yLeftScaleDataList,
+      this.yLeftScaleLineColor,
+      this.yLeftScaleLabelAlign,
+      this.yLeftScaleLabelColor,
+      this.yLeftScaleLabelSize,
+      this.yLeftScaleStyle,
+      this.yLeftScaleRender,
+      this.yRightScaleEnable = false,
+      this.yRightScaleLineWidth,
+      this.yRightScaleLineType,
+      this.yRightScaleDataList,
+      this.yRightScaleLineColor,
+      this.yRightScaleLabelAlign,
+      this.yRightScaleLabelColor,
+      this.yRightScaleLabelSize,
+      this.yRightScaleStyle,
+      this.yRightScaleRender,
+      this.xTopScaleEnable = false,
+      this.xTopScaleLineHeight,
+      this.xTopScaleLineType,
+      this.xTopScaleDataList,
+      this.xTopScaleLineColor,
+      this.xTopScaleLabelAlign,
+      this.xTopScaleLabelColor,
+      this.xTopScaleLabelSize,
+      this.xTopScaleStyle,
+      this.xTopScaleRender,
+      this.xBottomScaleEnable = true,
+      this.xBottomScaleLineHeight,
+      this.xBottomScaleLineType,
+      this.xBottomScaleDataList,
+      this.xBottomScaleLineColor,
+      this.xBottomScaleLabelAlign,
+      this.xBottomScaleLabelColor,
+      this.xBottomScaleLabelSize,
+      this.xBottomScaleStyle,
+      this.xBottomScaleRender,
+      this.chartStyleList,
+      this.chartRenderList}) {
+    assert(xMin < xMax, "xMin<xMax($xMin<$xMax) invalid");
+    assert(yMin < yMax, "yMin<yMax($yMin<$yMax) invalid");
+    _initXGridAttr();
+    _initYGridAttr();
+    _initYLeftScaleAttr();
+    _initYRightScaleAttr();
+    _initXTopScaleAttr();
+    _initXBottomScaleAttr();
+    _initChartAttr();
+  }
+
+  void _initXGridAttr() {
+    xGridStyle ??= ChartGlobalConfig.getXGridDefStyle();
+    if (xGridColor != null) {
+      xGridStyle?.color = xGridColor;
+    }
+    if (xGridLineType != null) {
+      xGridStyle?.lineType = xGridLineType!;
+    }
+    if (xGridLineHeight != null) {
+      xGridStyle?.lineHeight = xGridLineHeight!;
+    }
+    xGridRender ??= ChartGlobalConfig.getXGridDefRender();
+    xGridRender?.setStyle(xGridStyle!);
+    xGridRender?.setDataList(xGridDataList);
+  }
+
+  void _initYGridAttr() {
+    yGridStyle ??= ChartGlobalConfig.getYGridDefStyle();
+    if (yGridColor != null) {
+      yGridStyle?.color = yGridColor;
+    }
+    if (yGridLineType != null) {
+      yGridStyle?.lineType = yGridLineType!;
+    }
+    if (yGridLineWidth != null) {
+      yGridStyle?.lineWidth = yGridLineWidth!;
+    }
+    yGridRender ??= ChartGlobalConfig.getYGridDefRender();
+    yGridRender?.setStyle(yGridStyle!);
+    yGridRender?.setDataList(yGridDataList);
+  }
+
+  void _initYLeftScaleAttr() {
+    yLeftScaleStyle ??= ChartGlobalConfig.getLeftScaleDefStyle();
+    if (yLeftScaleLineWidth != null) {
+      yLeftScaleStyle?.lineWidth = yLeftScaleLineWidth!;
+    }
+    if (yLeftScaleLineType != null) {
+      yLeftScaleStyle?.lineType = yLeftScaleLineType!;
+    }
+    if (yLeftScaleLineColor != null) {
+      yLeftScaleStyle?.color = yLeftScaleLineColor!;
+    }
+    if (yLeftScaleLabelAlign != null) {
+      yLeftScaleStyle?.labelAlign = yLeftScaleLabelAlign!;
+    }
+    if (yLeftScaleLabelColor != null) {
+      yLeftScaleStyle!.labelStyle =
+          yLeftScaleStyle!.labelStyle.copyWith(color: yLeftScaleLabelColor!);
+    }
+    if (yLeftScaleLabelSize != null) {
+      yLeftScaleStyle!.labelStyle =
+          yLeftScaleStyle!.labelStyle.copyWith(fontSize: yLeftScaleLabelSize!);
+    }
+    yLeftScaleRender ??= ChartGlobalConfig.getYScaleDefRender(left: true);
+    yLeftScaleRender?.setStyle(yLeftScaleStyle!);
+    yLeftScaleRender?.setDataList(yLeftScaleDataList);
+  }
+
+  void _initYRightScaleAttr() {
+    yRightScaleStyle ??= ChartGlobalConfig.getLeftScaleDefStyle();
+    if (yRightScaleLineWidth != null) {
+      yRightScaleStyle?.lineWidth = yRightScaleLineWidth!;
+    }
+    if (yRightScaleLineType != null) {
+      yRightScaleStyle?.lineType = yRightScaleLineType!;
+    }
+    if (yRightScaleLineColor != null) {
+      yRightScaleStyle?.color = yRightScaleLineColor!;
+    }
+    if (yRightScaleLabelAlign != null) {
+      yRightScaleStyle?.labelAlign = yRightScaleLabelAlign!;
+    }
+    if (yRightScaleLabelColor != null) {
+      yRightScaleStyle!.labelStyle =
+          yRightScaleStyle!.labelStyle.copyWith(color: yRightScaleLabelColor!);
+    }
+    if (yRightScaleLabelSize != null) {
+      yRightScaleStyle!.labelStyle = yRightScaleStyle!.labelStyle
+          .copyWith(fontSize: yRightScaleLabelSize!);
+    }
+    yRightScaleRender ??= ChartGlobalConfig.getYScaleDefRender(left: false);
+    yRightScaleRender?.setStyle(yRightScaleStyle!);
+    yRightScaleRender?.setDataList(yRightScaleDataList);
+  }
+
+  void _initXTopScaleAttr() {
+    xTopScaleStyle ??= ChartGlobalConfig.getTopScaleDefStyle();
+    if (xTopScaleLineHeight != null) {
+      xTopScaleStyle?.lineHeight = xTopScaleLineHeight!;
+    }
+    if (xTopScaleLineType != null) {
+      xTopScaleStyle?.lineType = xTopScaleLineType!;
+    }
+    if (xTopScaleLineColor != null) {
+      xTopScaleStyle?.color = xTopScaleLineColor!;
+    }
+    if (xTopScaleLabelAlign != null) {
+      xTopScaleStyle?.labelAlign = xTopScaleLabelAlign!;
+    }
+    if (xTopScaleLabelColor != null) {
+      xTopScaleStyle!.labelStyle =
+          xTopScaleStyle!.labelStyle.copyWith(color: xTopScaleLabelColor!);
+    }
+    if (xTopScaleLabelSize != null) {
+      xTopScaleStyle!.labelStyle =
+          xTopScaleStyle!.labelStyle.copyWith(fontSize: xTopScaleLabelSize!);
+    }
+    xTopScaleRender ??= ChartGlobalConfig.getXScaleDefRender(top: true);
+    xTopScaleRender?.setStyle(xTopScaleStyle!);
+    xTopScaleRender?.setDataList(xTopScaleDataList);
+  }
+
+  void _initXBottomScaleAttr() {
+    xBottomScaleStyle ??= ChartGlobalConfig.getBottomScaleDefStyle();
+    if (xBottomScaleLineHeight != null) {
+      xBottomScaleStyle?.lineHeight = xBottomScaleLineHeight!;
+    }
+    if (xBottomScaleLineType != null) {
+      xBottomScaleStyle?.lineType = xBottomScaleLineType!;
+    }
+    if (xBottomScaleLineColor != null) {
+      xBottomScaleStyle?.color = xBottomScaleLineColor!;
+    }
+    if (xBottomScaleLabelAlign != null) {
+      xBottomScaleStyle?.labelAlign = xBottomScaleLabelAlign!;
+    }
+    if (xBottomScaleLabelColor != null) {
+      xBottomScaleStyle!.labelStyle = xBottomScaleStyle!.labelStyle
+          .copyWith(color: xBottomScaleLabelColor!);
+    }
+    if (xBottomScaleLabelSize != null) {
+      xBottomScaleStyle!.labelStyle = xBottomScaleStyle!.labelStyle
+          .copyWith(fontSize: xBottomScaleLabelSize!);
+    }
+    xBottomScaleRender ??= ChartGlobalConfig.getXScaleDefRender(top: false);
+    xBottomScaleRender?.setStyle(xBottomScaleStyle!);
+    xBottomScaleRender?.setDataList(xBottomScaleDataList);
+  }
+
+  void _initChartAttr() {
+    if (chartTypeList == null || chartTypeList!.isEmpty) {
+      printLog(message: "图表类型列表为空", methodName: "_initChartAttr");
+      chartDataList?.clear();
+      chartStyleList?.clear();
+      chartRenderList?.clear();
+      return;
+    }
+    List<int> countList = List.empty(growable: true);
+    countList.add(chartTypeList!.length);
+    if (chartDataList != null) {
+      countList.add(chartDataList!.length);
+    }
+    if (chartStyleList != null) {
+      countList.add(chartStyleList!.length);
+    }
+    if (chartRenderList != null) {
+      countList.add(chartRenderList!.length);
+    }
+    int count = 0;
+    for (var itemCount in countList) {
+      if (count == 0) {
+        count = itemCount;
+        continue;
+      }
+      if (count != itemCount) {
+        printLog(message: "图表内容属性大小不一致", methodName: "_initChartAttr");
+        chartDataList?.clear();
+        chartStyleList?.clear();
+        chartRenderList?.clear();
+        return;
+      }
+    }
+    for (int index = 0; index < count; index++) {
+      ChartTypeEnum itemType = chartTypeList![index];
+      if (itemType != ChartTypeEnum.none &&
+          itemType != ChartTypeEnum.custom &&
+          chartRenderList![index] == null) {
+        chartRenderList![index] = ChartGlobalConfig.getChartRender(itemType);
+      }
+      chartRenderList![index]?.setStyle(
+          chartStyleList![index] ?? ChartGlobalConfig.getChartStyle(itemType)!);
+      chartRenderList![index]?.setDataList(chartDataList![index]);
+    }
+  }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    ChartBean(
-        {required this.width,
-          required this.height,
-          required this.xMax,
-          required this.xMin,
-          required this.yMax,
-          required this.yMin,
-          this.xGridStyle,
-          this.xGridRender,
-          this.xGridDataList,
-          this.yGridStyle,
-          this.yGridRender,
-          this.yGridDataList,
-          this.yLeftScaleStyle,
-          this.yLeftScaleRender,
-          this.yLeftScaleDataList,
-          this.yRightScaleStyle,
-          this.yRightScaleRender,
-          this.yRightScaleDataList,
-          this.xTopScaleStyle,
-          this.xTopScaleRender,
-          this.xTopScaleDataList,
-          this.xBottomScaleStyle,
-          this.xBottomScaleRender,
-          this.xBottomScaleDataList,
-          this.chartStyleList,
-          this.chartRenderList,
-          this.chartDataList});
-    return BaseChartRenderObject(ChartBean(
+    return BaseChartRenderObject(
         width: width,
         height: height,
         xMax: xMax,
         xMin: xMin,
-        yMax: yMax,
-        yMin: yMin,
-        xGridRender: _xGridRender,
-        yGridRender: _yGridRender,
-        leftScaleRender: _leftScaleRender,
-        rightScaleRender: _rightScaleRender,
-        topScaleRender: _topScaleRender,
-        bottomScaleRender: _bottomScaleRender,
-        chartRenderList: _chartRenderList));
+        yMax: xMin,
+        yMin: xMin,
+        xGridRender: xGridRender,
+        yGridRender: yGridRender,
+        yLeftScaleRender: yLeftScaleRender,
+        yRightScaleRender: yRightScaleRender,
+        xTopScaleRender: xTopScaleRender,
+        xBottomScaleRender: xBottomScaleRender,
+        chartStyleList: chartStyleList,
+        chartRenderList: chartRenderList,
+        chartDataList: chartDataList);
   }
 }
 
 class BaseChartRenderObject extends RenderBox {
-  ChartBean chartBean;
+  double? width;
 
-  BaseChartRenderObject(this.chartBean);
+  double? height;
+
+  final double xMax;
+
+  final double xMin;
+
+  final double yMax;
+
+  final double yMin;
+
+  final BaseChartXGridRender? xGridRender;
+  final BaseChartYGridRender? yGridRender;
+  final BaseChartYScaleRender? yLeftScaleRender;
+  final BaseChartYScaleRender? yRightScaleRender;
+  final BaseChartXScaleRender? xTopScaleRender;
+  final BaseChartXScaleRender? xBottomScaleRender;
+  List<BaseChartContentStyle?>? chartStyleList;
+  List<BaseChartContentRender?>? chartRenderList;
+  List<List<BaseContentData>?>? chartDataList;
+
+  BaseChartRenderObject(
+      {this.width,
+      this.height,
+      required this.xMax,
+      required this.xMin,
+      required this.yMax,
+      required this.yMin,
+      this.xGridRender,
+      this.yGridRender,
+      this.yLeftScaleRender,
+      this.yRightScaleRender,
+      this.xTopScaleRender,
+      this.xBottomScaleRender,
+      this.chartStyleList,
+      this.chartRenderList,
+      this.chartDataList});
 
   @override
   bool hitTest(BoxHitTestResult result, {required Offset position}) {
     result.add(BoxHitTestEntry(this, position));
-    if (chartBean.chartRenderList == null) {
+    if (chartRenderList == null || chartRenderList!.isEmpty) {
       return false;
     }
 
     bool needRefresh = false;
-    for (BaseChartContentRender render in chartBean.chartRenderList!) {
-      render.hitTestSelf(position);
-      needRefresh = true;
+    for (BaseChartContentRender? render in chartRenderList!) {
+      if (render == null) {
+        continue;
+      }
+      if (render.hitTestSelf(position)) {
+        needRefresh = true;
+      }
     }
     if (needRefresh) {
       markNeedsPaint();
@@ -384,37 +597,30 @@ class BaseChartRenderObject extends RenderBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     super.paint(context, offset);
-    if (chartBean.xMin >= chartBean.xMax) return;
-    if (chartBean.yMin >= chartBean.yMax) return;
-    double w = chartBean.width ?? constraints.maxWidth;
-    double h = chartBean.height ?? constraints.maxHeight;
+    if (xMin >= xMax) return;
+    if (yMin >= yMax) return;
+    double w = width ?? constraints.maxWidth;
+    double h = height ?? constraints.maxHeight;
     BaseDrawInfo drawInfo = BaseDrawInfo(
-        w: w,
-        h: h,
-        xMax: chartBean.xMax,
-        xMin: chartBean.xMin,
-        yMax: chartBean.yMax,
-        yMin: chartBean.yMin);
+        w: w, h: h, xMax: xMax, xMin: xMin, yMax: yMax, yMin: yMin);
     printLog(message: "w:$w,h:$h", methodName: "paint");
-    chartBean.leftScaleRender?.info = drawInfo;
-    Rect leftScaleRect = chartBean.leftScaleRender?.getDrawArea() ?? Rect.zero;
+    yLeftScaleRender?.setInfo(drawInfo);
+    Rect leftScaleRect = yLeftScaleRender?.getDrawArea() ?? Rect.zero;
     leftScaleRect = leftScaleRect.shift(offset);
     printLog(message: "leftScaleRect:$leftScaleRect", methodName: "paint");
 
-    chartBean.rightScaleRender?.info = drawInfo;
-    Rect rightScaleRect =
-        chartBean.rightScaleRender?.getDrawArea() ?? Rect.zero;
+    yRightScaleRender?.setInfo(drawInfo);
+    Rect rightScaleRect = yRightScaleRender?.getDrawArea() ?? Rect.zero;
     rightScaleRect = rightScaleRect.shift(offset);
     printLog(message: "rightScaleRect:$rightScaleRect", methodName: "paint");
 
-    chartBean.topScaleRender?.info = drawInfo;
-    Rect topScaleRect = chartBean.topScaleRender?.getDrawArea() ?? Rect.zero;
+    xTopScaleRender?.setInfo(drawInfo);
+    Rect topScaleRect = xTopScaleRender?.getDrawArea() ?? Rect.zero;
     topScaleRect = topScaleRect.shift(offset);
     printLog(message: "topScaleRect:$topScaleRect", methodName: "paint");
 
-    chartBean.bottomScaleRender?.info = drawInfo;
-    Rect bottomScaleRect =
-        chartBean.bottomScaleRender?.getDrawArea() ?? Rect.zero;
+    xBottomScaleRender?.setInfo(drawInfo);
+    Rect bottomScaleRect = xBottomScaleRender?.getDrawArea() ?? Rect.zero;
     bottomScaleRect = bottomScaleRect.shift(offset);
     printLog(message: "bottomScaleRect:$bottomScaleRect", methodName: "paint");
 
@@ -422,89 +628,24 @@ class BaseChartRenderObject extends RenderBox {
         rightScaleRect.left, bottomScaleRect.top);
     printLog(message: "contentRect:$contentRect", methodName: "paint");
 
-    chartBean.xGridRender?.info = drawInfo;
-    chartBean.xGridRender?.draw(context, contentRect, contentRect);
+    xGridRender?.setInfo(drawInfo);
+    xGridRender?.draw(context, contentRect, contentRect);
 
-    chartBean.yGridRender?.info = drawInfo;
-    chartBean.yGridRender?.draw(context, contentRect, contentRect);
-    chartBean.leftScaleRender?.draw(context, leftScaleRect, contentRect);
+    yGridRender?.setInfo(drawInfo);
+    yGridRender?.draw(context, contentRect, contentRect);
+    yLeftScaleRender?.draw(context, leftScaleRect, contentRect);
 
-    chartBean.topScaleRender?.draw(context, topScaleRect, contentRect);
+    xTopScaleRender?.draw(context, topScaleRect, contentRect);
 
-    chartBean.rightScaleRender?.draw(context, rightScaleRect, contentRect);
+    yRightScaleRender?.draw(context, rightScaleRect, contentRect);
 
-    chartBean.bottomScaleRender?.draw(context, bottomScaleRect, contentRect);
+    xBottomScaleRender?.draw(context, bottomScaleRect, contentRect);
 
-    if (chartBean.chartRenderList != null) {
-      for (int index = 0; index < chartBean.chartRenderList!.length; index++) {
-        chartBean.chartRenderList![index].info = drawInfo;
-        chartBean.chartRenderList![index]
-            .draw(context, contentRect, contentRect);
+    if (chartRenderList != null) {
+      for (int index = 0; index < chartRenderList!.length; index++) {
+        chartRenderList![index]?.setInfo(drawInfo);
+        chartRenderList![index]?.draw(context, contentRect, contentRect);
       }
     }
   }
-}
-
-class ChartBean {
-  double? width;
-
-  double? height;
-
-  final double xMax;
-
-  final double xMin;
-
-  final double yMax;
-
-  final double yMin;
-
-  final BaseChartXGridStyle? xGridStyle;
-  final BaseChartXGridRender? xGridRender;
-  final List<BaseChartXGridData>? xGridDataList;
-  final BaseChartYGridStyle? yGridStyle;
-  final BaseChartYGridRender? yGridRender;
-  final List<BaseChartXGridData>? yGridDataList;
-  final BaseChartYScaleStyle? yLeftScaleStyle;
-  final BaseChartYScaleRender? yLeftScaleRender;
-  final List<BaseYScaleData>? yLeftScaleDataList;
-  final BaseChartYScaleStyle? yRightScaleStyle;
-  final BaseChartYScaleRender? yRightScaleRender;
-  final List<BaseYScaleData>? yRightScaleDataList;
-  final BaseChartYScaleStyle? xTopScaleStyle;
-  final BaseChartYScaleRender? xTopScaleRender;
-  final List<BaseYScaleData>? xTopScaleDataList;
-  final BaseChartYScaleStyle? xBottomScaleStyle;
-  final BaseChartYScaleRender? xBottomScaleRender;
-  final List<BaseYScaleData>? xBottomScaleDataList;
-  List<BaseChartContentStyle?>? chartStyleList;
-  List<BaseChartContentRender?>? chartRenderList;
-  List<List<BaseContentData>?>? chartDataList;
-
-  ChartBean({ this.width,
-    this.height,
-    required this.xMax,
-    required this.xMin,
-    required this.yMax,
-    required this.yMin,
-    this.xGridStyle,
-    this.xGridRender,
-    this.xGridDataList,
-    this.yGridStyle,
-    this.yGridRender,
-    this.yGridDataList,
-    this.yLeftScaleStyle,
-    this.yLeftScaleRender,
-    this.yLeftScaleDataList,
-    this.yRightScaleStyle,
-    this.yRightScaleRender,
-    this.yRightScaleDataList,
-    this.xTopScaleStyle,
-    this.xTopScaleRender,
-    this.xTopScaleDataList,
-    this.xBottomScaleStyle,
-    this.xBottomScaleRender,
-    this.xBottomScaleDataList,
-    this.chartStyleList,
-    this.chartRenderList,
-    this.chartDataList});
 }
